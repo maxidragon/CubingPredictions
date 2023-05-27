@@ -1,4 +1,4 @@
-import { Body, Controller, Post, UseGuards } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post, UseGuards } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { PredictionsService } from './predictions.service';
 import { AddPredictionDto } from './dto/addPrediction.dto';
@@ -9,7 +9,7 @@ import { JwtAuthDto } from '../auth/dto/jwt-auth.dto';
 export class PredictionsController {
   constructor(private readonly predictionsService: PredictionsService) {}
   @UseGuards(AuthGuard('jwt'))
-  @Post('add')
+  @Post('podium/add')
   async addPodiumPrediction(
     @Body() dto: AddPredictionDto,
     @GetUser() user: JwtAuthDto,
@@ -21,6 +21,24 @@ export class PredictionsController {
       dto.firstPlaceWcaId,
       dto.secondPlaceWcaId,
       dto.thirdPlaceWcaId,
+    );
+  }
+  @Get('podium/ranking')
+  async getPodiumPredictionsRanking() {
+    return await this.predictionsService.getPodiumPredictionsRanking();
+  }
+  @Get('user/podium/:userId')
+  async getAllPodiumPredictionsByUser(@Param('userId') userId: number) {
+    return await this.predictionsService.getAllPodiumPredictionsByUser(userId);
+  }
+  @Get('podium/:competitionId/:eventId')
+  async getAllPodiumPredictionsForEvent(
+    @Param('competitionId') competitionId: string,
+    @Param('eventId') eventId: string,
+  ) {
+    return await this.predictionsService.getAllPodiumPredictionsForEvent(
+      competitionId,
+      eventId,
     );
   }
 }
