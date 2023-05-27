@@ -1,25 +1,43 @@
 import React from 'react';
-import logo from './logo.svg';
 import './App.css';
+import {createTheme, ThemeProvider} from "@mui/material";
+import {createBrowserRouter, RouterProvider} from "react-router-dom";
+import Layout from "./Layout/Layout";
+import Main from "./Pages/Main/Main";
+import PodiumPredictions from "./Pages/Predictions/PodiumPredictions";
 
+const router = createBrowserRouter([
+  // {
+  //     path: "*",
+  //     element: <>,
+  // },
+  // {
+  //   path: "/auth/login",
+  //   element: <Login/>,
+  // },
+  // {
+  //   path: "/auth/register",
+  //   element: <Register/>,
+  // },
+  {
+    path: "/",
+    element: <Layout children={<Main />} />,
+  },
+  {
+    path: "/podium",
+    element: <Layout children={<PodiumPredictions />} />,
+  },
+]);
+const lightTheme = createTheme({
+  palette: {
+    mode: 'light',
+  },
+});
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+      <ThemeProvider theme={lightTheme}>
+          <RouterProvider router={router}/>
+      </ThemeProvider>
   );
 }
 
