@@ -30,4 +30,6 @@ model PodiumPrediction {
   secondPlaceWcaId String
   thirdPlaceWcaId  String
   score            Int
+
+  @@unique([authorId, competitionId, eventId])
 }

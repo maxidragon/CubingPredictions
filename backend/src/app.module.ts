@@ -4,6 +4,8 @@ import { AppService } from './app.service';
 import { DbModule } from './db/db.module';
 import { AuthModule } from './auth/auth.module';
 import { MailerModule } from '@nestjs-modules/mailer';
+import { PredictionsModule } from './predictions/predictions.module';
+import { CompetitionsModule } from './competitions/competitions.module';
 
 @Module({
   imports: [
@@ -24,6 +26,8 @@ import { MailerModule } from '@nestjs-modules/mailer';
         },
       }),
     }),
+    PredictionsModule,
+    CompetitionsModule,
   ],
   controllers: [AppController],
   providers: [AppService],
