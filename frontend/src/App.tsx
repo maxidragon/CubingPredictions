@@ -1,10 +1,10 @@
 import React from 'react';
-import './App.css';
 import {createTheme, ThemeProvider} from "@mui/material";
 import {createBrowserRouter, RouterProvider} from "react-router-dom";
 import Layout from "./Layout/Layout";
 import Main from "./Pages/Main/Main";
 import PodiumPredictions from "./Pages/Predictions/PodiumPredictions";
+import Competition from "./Pages/Competition/Competition";
 
 const router = createBrowserRouter([
   // {
@@ -27,6 +27,10 @@ const router = createBrowserRouter([
     path: "/podium",
     element: <Layout children={<PodiumPredictions />} />,
   },
+  {
+    path: "/competitions/:competitionId",
+    element: <Competition />,
+  }
 ]);
 const lightTheme = createTheme({
   palette: {

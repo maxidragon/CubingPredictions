@@ -38,6 +38,7 @@ const PodiumPredictions = () => {
                                         key={competition.id}
                                         component={Link}
                                         to={`/competitions/${competition.id}`}
+                                        disabled={competition.isRegistrationOpen}
                                     >
                                         <ListItemIcon>
                                             <ListItemIcon sx={{p: 2}}>
