@@ -1,6 +1,7 @@
 import {AppBar, IconButton, Toolbar, Typography} from "@mui/material";
 import GitHubIcon from '@mui/icons-material/GitHub';
 import {Link} from "react-router-dom";
+import LoginPartial from "./LoginPartial";
 
 
 const Navbar = (props: any) => {
@@ -11,6 +12,7 @@ const Navbar = (props: any) => {
                             to={`/`} sx={{textDecoration: 'none'}}>
                     {props.title ? props.title : "Cubing Predictions"}
                 </Typography>
+                <LoginPartial />
                 <IconButton href="https://github.com/maxidragon/CubingPredictions" target="_blank" rel="noopener noreferrer">
                     <GitHubIcon sx={{color: "#fff"}} fontSize="large"/>
                 </IconButton>

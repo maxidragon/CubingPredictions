@@ -36,6 +36,7 @@
     "js-sha512": "^0.8.0",
     "passport-jwt": "^4.0.1",
     "prisma": "^4.14.1",
+    "react-flag-icon-css": "^1.0.25",
     "reflect-metadata": "^0.1.13",
     "rxjs": "^7.2.0"
   },

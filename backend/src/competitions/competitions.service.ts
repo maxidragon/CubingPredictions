@@ -48,7 +48,7 @@ export class CompetitionsService {
         params: {
           start: todayString,
           end: nextMonthString,
-          per_page: 200,
+          per_page: 50,
         },
       });
       const upcomingCompetitions = [];

@@ -5,20 +5,22 @@ import Layout from "./Layout/Layout";
 import Main from "./Pages/Main/Main";
 import PodiumPredictions from "./Pages/Predictions/PodiumPredictions";
 import Competition from "./Pages/Competition/Competition";
+import Register from "./Pages/Auth/Register/Register";
+import Login from "./Pages/Auth/Login/Login";
 
 const router = createBrowserRouter([
   // {
   //     path: "*",
   //     element: <>,
   // },
-  // {
-  //   path: "/auth/login",
-  //   element: <Login/>,
-  // },
-  // {
-  //   path: "/auth/register",
-  //   element: <Register/>,
-  // },
+  {
+    path: "/auth/login",
+    element: <Login/>,
+  },
+  {
+    path: "/auth/register",
+    element: <Register/>,
+  },
   {
     path: "/",
     element: <Layout children={<Main />} />,
