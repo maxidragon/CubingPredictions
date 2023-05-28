@@ -10,6 +10,7 @@ import MenuIcon from '@mui/icons-material/Menu';
 import GitHubIcon from "@mui/icons-material/GitHub";
 import events from './../../logic/events';
 import CompetitionEvent from './CompetitionEvent/CompetitionEvent';
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 
 const Competition = (props: any) => {
     const {competitionId} = useParams<{competitionId: string}>();
@@ -58,8 +59,7 @@ const Competition = (props: any) => {
                         >
                             <MenuIcon/>
                         </IconButton>
-                        <Typography variant="h6" color="inherit" style={{flexGrow: 1}}  component={Link}
-                                    to={`/`} sx={{textDecoration: 'none'}}>
+                        <Typography variant="h6" color="inherit" style={{flexGrow: 1}} sx={{textDecoration: 'none'}}>
                             {competition.name}
                         </Typography>
                         <IconButton href="https://github.com/maxidragon/CubingPredictions" target="_blank" rel="noopener noreferrer">
@@ -76,6 +76,14 @@ const Competition = (props: any) => {
                             px: [1],
                         }}
                     >
+                        <IconButton
+                            component={Link}
+                            to="/"
+                            aria-label="Homepage"
+                            size="large"
+                        >
+                            <ArrowBackIcon />
+                        </IconButton>
                         <IconButton onClick={toggleDrawer}>
                             <ChevronLeftIcon/>
                         </IconButton>
