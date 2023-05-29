@@ -11,6 +11,7 @@ import GitHubIcon from "@mui/icons-material/GitHub";
 import events from './../../logic/events';
 import CompetitionEvent from './CompetitionEvent/CompetitionEvent';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import LoginPartial from "../../Layout/LoginPartial";
 
 const Competition = (props: any) => {
     const {competitionId} = useParams<{competitionId: string}>();
@@ -62,6 +63,7 @@ const Competition = (props: any) => {
                         <Typography variant="h6" color="inherit" style={{flexGrow: 1}} sx={{textDecoration: 'none'}}>
                             {competition.name}
                         </Typography>
+                        <LoginPartial />
                         <IconButton href="https://github.com/maxidragon/CubingPredictions" target="_blank" rel="noopener noreferrer">
                             <GitHubIcon sx={{color: "#fff"}} fontSize="large"/>
                         </IconButton>
