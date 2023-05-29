@@ -8,8 +8,7 @@ export const getUser = () => {
     return {};
 }
 
-export const logout = async (event: any) => {
-    event.preventDefault();
+export const logout = async () => {
     let myHeaders = new Headers();
     myHeaders.append("Content-Type", "application/json");
     await fetch("http://localhost:5000/auth/logout", {
@@ -18,5 +17,9 @@ export const logout = async (event: any) => {
         redirect: "follow",
         credentials: "include",
     });
+}
 
+export const isUserLoggedIn = () => {
+    const user = getUser();
+    return !!user && Object.keys(user).length > 0;
 }

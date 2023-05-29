@@ -9,13 +9,14 @@ const LoginPartial = () => {
     console.log(user);
     return (
         <>
-            {user.id ?(<>
-                <Typography>Hello {user.username}</Typography>
-                <IconButton color="inherit" onClick={(event: any) => {
-                logout(event);
-                window.location.reload();
-                }}><LogoutIcon /></IconButton></>) :
-            <IconButton color="inherit" component={Link} to={"/auth/login"}><LoginIcon /></IconButton>}
+            {user.id ? (<>
+                    <Typography>Hello {user.username}</Typography>
+                    <IconButton color="inherit" onClick={(event: any) => {
+                        event.preventDefault();
+                        logout();
+                        window.location.reload();
+                    }}><LogoutIcon/></IconButton></>) :
+                <IconButton color="inherit" component={Link} to={"/auth/login"}><LoginIcon/></IconButton>}
         </>
     )
 };

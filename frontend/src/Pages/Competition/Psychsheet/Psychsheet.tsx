@@ -7,7 +7,6 @@ const Psychsheet = (props: any) => {
     const [ranking, setRanking] = useState<any>([]);
 
     const generateRankingData = () => {
-        console.log(props.competition);
         if (props.competition.persons) {
             const generatedRanking = generateRanking(props.competition.persons, props.event, props.type);
             setRanking(generatedRanking);

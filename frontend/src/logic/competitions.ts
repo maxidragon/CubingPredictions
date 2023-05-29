@@ -23,7 +23,6 @@ export const getCompetitionInfo = async (id: string) => {
 export const generateRanking = (persons: any, event: string, type: string) => {
     const ranking: { name: string, country: string, result: string, worldRank: number }[] = [];
     persons.map((person: any)=> {
-        console.log(person);
         if (person.registration && person.registration.eventIds.includes(event)) {
             person.personalBests.map((pb: any) => {
                 if (pb.eventId === event && pb.type === type) {
@@ -41,4 +40,28 @@ export const generateRanking = (persons: any, event: string, type: string) => {
         return a.worldRank - b.worldRank;
     });
     return ranking;
+};
+
+export const getFinalStartTime = async (id: string, event: string) => {
+    try {
+        const response = await fetch(`http://localhost:5000/competitions/${id}/final/${event}`);
+        return await response.json();
+    } catch (err) {
+        console.log(err);
+        return [];
+    }
+};
+
+export const getCompetitorsForEvent = async (competitors: any, event: string) => {
+    const competitorsForEvent: any[] = [];
+    competitors.map((competitor: any) => {
+      if (competitor.registration && competitor.registration.eventIds.includes(event)) {
+          competitorsForEvent.push({
+                name: competitor.name,
+                wcaId: competitor.wcaId,
+              wcaUserId: competitor.wcaUserId,
+          })
+      }
+    });
+    return competitorsForEvent;
 };
