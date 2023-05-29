@@ -55,7 +55,7 @@ export const getFinalStartTime = async (id: string, event: string) => {
 export const getCompetitorsForEvent = async (competitors: any, event: string) => {
     const competitorsForEvent: any[] = [];
     competitors.map((competitor: any) => {
-      if (competitor.registration && competitor.registration.eventIds.includes(event)) {
+      if (competitor.registration && competitor.registration.eventIds.includes(event) && competitor.wcaId) {
           competitorsForEvent.push({
                 name: competitor.name,
                 wcaId: competitor.wcaId,

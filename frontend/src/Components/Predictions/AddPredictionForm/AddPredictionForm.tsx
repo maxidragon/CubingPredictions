@@ -1,7 +1,7 @@
 import {getCompetitorsForEvent} from "../../../logic/competitions";
 import {useEffect, useState} from "react";
-import {Autocomplete, Box} from "@mui/material";
-import TextField from "@mui/material/TextField";
+import {Autocomplete, Box, Button, TextField, Typography} from "@mui/material";
+import {addPodiumPrediction} from "../../../logic/predictions";
 
 const AddPredictionForm = (props: any) => {
     const [competitors, setCompetitors] = useState<any>([]);
@@ -11,7 +11,6 @@ const AddPredictionForm = (props: any) => {
     const fetchData = async () => {
         const competitors = await getCompetitorsForEvent(props.competition.persons, props.event.id);
         setCompetitors(competitors);
-        console.log(competitors);
     };
     useEffect(() => {
         fetchData();
@@ -26,17 +25,17 @@ const AddPredictionForm = (props: any) => {
     const handleThirdPlaceChange = (event: any, newValue: any) => {
         setThirdPlace(newValue);
     };
+    const handleSubmit = async () => {
+        await addPodiumPrediction(props.competition.id, props.event.id, firstPlace.wcaId, secondPlace.wcaId, thirdPlace.wcaId);
+    };
     const textFieldStyle = {
         width: 250,
         mb: 2
-    }
+    };
     return (
         <>
-            <Box sx={{
-                minWidth: 120,
-                maxWidth: 200,
-                margin: 'auto',
-            }}>
+            <Box>
+                <Typography variant="h6">Add your podium prediction for {props.event.name} final at {props.competition.name}</Typography>
                 <Autocomplete
                     id="firstPlaceSelect"
                     options={competitors}
@@ -67,6 +66,7 @@ const AddPredictionForm = (props: any) => {
                         <TextField {...params} label="Third place" variant="outlined" sx={textFieldStyle} />
                     )}
                 />
+                <Button color="primary" variant="contained" onClick={handleSubmit}>Submit</Button>
             </Box>
         </>
     )
