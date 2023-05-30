@@ -95,4 +95,22 @@ export class CompetitionsService {
     });
     return eventCompetitors;
   }
+  async searchCompetitions(query: string) {
+    const today = new Date();
+    let start = '';
+    if (query.length < 1) {
+      start = `${today.getFullYear()}-${(today.getMonth() + 1)
+        .toString()
+        .padStart(2, '0')}-${today.getDate().toString().padStart(2, '0')}`;
+    }
+    const response = await axios.get('competitions', {
+      params: {
+        q: query,
+        per_page: 50,
+        sort: 'start_date',
+        start,
+      },
+    });
+    return response.data;
+  }
 }

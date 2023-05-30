@@ -68,9 +68,9 @@ export const getCompetitorsForEvent = async (competitors: any, event: string) =>
     return competitorsForEvent;
 };
 
-export const searchCompetition = async (name: string) => {
+export const searchCompetitions = async (name: string) => {
     try {
-        const response = await fetch(`https://worldcubeassociation.org/api/v0/competitions/search/competitions?q=${name}`);
+        const response = await fetch(`http://localhost:5000/competitions/search?query=${name}`);
         return await response.json();
     } catch (err) {
         console.log(err);

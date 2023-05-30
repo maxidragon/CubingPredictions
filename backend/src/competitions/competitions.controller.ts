@@ -1,4 +1,4 @@
-import { Controller, Get, Param } from '@nestjs/common';
+import { Controller, Get, Param, Query } from '@nestjs/common';
 import { CompetitionsService } from './competitions.service';
 
 @Controller('competitions')
@@ -26,5 +26,9 @@ export class CompetitionsController {
     @Param('eventId') eventId: string,
   ) {
     return await this.competitionsService.getCompetitorsForEvent(id, eventId);
+  }
+  @Get('search/')
+  async searchCompetitions(@Query('query') query: string) {
+    return await this.competitionsService.searchCompetitions(query);
   }
 }
