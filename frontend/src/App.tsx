@@ -8,6 +8,7 @@ import Competition from "./Pages/Competition/Competition";
 import Register from "./Pages/Auth/Register/Register";
 import Login from "./Pages/Auth/Login/Login";
 import {SnackbarProvider} from "notistack";
+import About from "./Pages/About/About";
 
 const router = createBrowserRouter([
   // {
@@ -21,6 +22,10 @@ const router = createBrowserRouter([
   {
     path: "/auth/register",
     element: <Register/>,
+  },
+  {
+    path: '/about',
+    element: <Layout children={<About />} />,
   },
   {
     path: "/",
