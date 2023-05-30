@@ -32,7 +32,7 @@ const router = createBrowserRouter([
   },
   {
     path: "/competitions/:competitionId",
-    element: <Competition />,
+    element: <Layout children={<Competition />} />,
   }
 ]);
 const lightTheme = createTheme({
