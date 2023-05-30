@@ -22,7 +22,7 @@ export const getCompetitionInfo = async (id: string) => {
 
 export const generateRanking = (persons: any, event: string, type: string) => {
     const ranking: { name: string, country: string, result: string, worldRank: number }[] = [];
-    persons.map((person: any)=> {
+    persons.map((person: any) => {
         if (person.registration && person.registration.eventIds.includes(event)) {
             person.personalBests.map((pb: any) => {
                 if (pb.eventId === event && pb.type === type) {
@@ -65,6 +65,15 @@ export const getCompetitorsForEvent = async (competitors: any, event: string) =>
             }
         });
     }
-
     return competitorsForEvent;
+};
+
+export const searchCompetition = async (name: string) => {
+    try {
+        const response = await fetch(`https://worldcubeassociation.org/api/v0/competitions/search/competitions?q=${name}`);
+        return await response.json();
+    } catch (err) {
+        console.log(err);
+        return [];
+    }
 };
