@@ -7,6 +7,7 @@ import PodiumPredictions from "./Pages/Predictions/PodiumPredictions";
 import Competition from "./Pages/Competition/Competition";
 import Register from "./Pages/Auth/Register/Register";
 import Login from "./Pages/Auth/Login/Login";
+import {SnackbarProvider} from "notistack";
 
 const router = createBrowserRouter([
   // {
@@ -42,7 +43,9 @@ const lightTheme = createTheme({
 function App() {
   return (
       <ThemeProvider theme={lightTheme}>
+        <SnackbarProvider>
           <RouterProvider router={router}/>
+        </SnackbarProvider>
       </ThemeProvider>
   );
 }

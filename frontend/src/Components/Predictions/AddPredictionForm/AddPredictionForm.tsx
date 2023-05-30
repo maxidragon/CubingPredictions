@@ -2,12 +2,14 @@ import {getCompetitorsForEvent} from "../../../logic/competitions";
 import {useEffect, useState} from "react";
 import {Autocomplete, Box, Button, TextField, Typography} from "@mui/material";
 import {addPodiumPrediction} from "../../../logic/predictions";
+import {useSnackbar} from "notistack";
 
 const AddPredictionForm = (props: any) => {
     const [competitors, setCompetitors] = useState<any>([]);
     const [firstPlace, setFirstPlace] = useState<any>(null);
     const [secondPlace, setSecondPlace] = useState<any>(null);
     const [thirdPlace, setThirdPlace] = useState<any>(null);
+    const { enqueueSnackbar, closeSnackbar } = useSnackbar();
     const fetchData = async () => {
         const competitors = await getCompetitorsForEvent(props.competition.persons, props.event.id);
         setCompetitors(competitors);
@@ -26,7 +28,10 @@ const AddPredictionForm = (props: any) => {
         setThirdPlace(newValue);
     };
     const handleSubmit = async () => {
-        await addPodiumPrediction(props.competition.id, props.event.id, firstPlace.wcaId, secondPlace.wcaId, thirdPlace.wcaId);
+        const message = await addPodiumPrediction(props.competition.id, props.event.id, firstPlace.wcaId, secondPlace.wcaId, thirdPlace.wcaId);
+        //TODO
+        //variant
+        enqueueSnackbar(message.message);
     };
     const textFieldStyle = {
         width: 250,
