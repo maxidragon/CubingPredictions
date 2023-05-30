@@ -153,4 +153,32 @@ export class PredictionsService {
       );
     }
   }
+  async getMyPodiumPredictionsForEvent(
+    userId: number,
+    competitionId: string,
+    eventId: string,
+  ) {
+    try {
+      const result = await this.prisma.podiumPrediction.findFirstOrThrow({
+        where: {
+          competitionId,
+          eventId,
+          authorId: userId,
+        },
+        select: {
+          competitionId: true,
+          eventId: true,
+          firstPlaceWcaId: true,
+          secondPlaceWcaId: true,
+          thirdPlaceWcaId: true,
+        },
+      });
+      return result;
+    } catch (e) {
+      throw new HttpException(
+        'You have not predict this podium yet!',
+        HttpStatus.NOT_FOUND,
+      );
+    }
+  }
 }

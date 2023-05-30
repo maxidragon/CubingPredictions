@@ -41,4 +41,17 @@ export class PredictionsController {
       eventId,
     );
   }
+  @UseGuards(AuthGuard('jwt'))
+  @Get('podium/my/:competitionId/:eventId/')
+  async getMyPodiumPrediction(
+    @Param('competitionId') competitionId: string,
+    @Param('eventId') eventId: string,
+    @GetUser() user: JwtAuthDto,
+  ) {
+    return this.predictionsService.getMyPodiumPredictionsForEvent(
+      user.userId,
+      competitionId,
+      eventId,
+    );
+  }
 }

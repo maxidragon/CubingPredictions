@@ -1,22 +1,13 @@
-import {getCompetitorsForEvent} from "../../../logic/competitions";
-import {useEffect, useState} from "react";
+import {useState} from "react";
 import {Autocomplete, Box, Button, TextField, Typography} from "@mui/material";
 import {addPodiumPrediction} from "../../../logic/predictions";
 import {useSnackbar} from "notistack";
 
 const AddPredictionForm = (props: any) => {
-    const [competitors, setCompetitors] = useState<any>([]);
     const [firstPlace, setFirstPlace] = useState<any>(null);
     const [secondPlace, setSecondPlace] = useState<any>(null);
     const [thirdPlace, setThirdPlace] = useState<any>(null);
-    const { enqueueSnackbar, closeSnackbar } = useSnackbar();
-    const fetchData = async () => {
-        const competitors = await getCompetitorsForEvent(props.competition.persons, props.event.id);
-        setCompetitors(competitors);
-    };
-    useEffect(() => {
-        fetchData();
-    }, [props.competition, props.event]);
+    const {enqueueSnackbar, closeSnackbar} = useSnackbar();
 
     const handleFirstPlaceChange = (event: any, newValue: any) => {
         setFirstPlace(newValue);
@@ -29,9 +20,12 @@ const AddPredictionForm = (props: any) => {
     };
     const handleSubmit = async () => {
         const message = await addPodiumPrediction(props.competition.id, props.event.id, firstPlace.wcaId, secondPlace.wcaId, thirdPlace.wcaId);
-        //TODO
-        //variant
-        enqueueSnackbar(message.message);
+        console.log(message);
+        if (message.statusCode === 201) {
+            enqueueSnackbar(message.message, {variant: "success"});
+        } else {
+            enqueueSnackbar(message.message, {variant: "error"});
+        }
     };
     const textFieldStyle = {
         width: 250,
@@ -40,10 +34,11 @@ const AddPredictionForm = (props: any) => {
     return (
         <>
             <Box>
-                <Typography variant="h6">Add your podium prediction for {props.event.name} final at {props.competition.name}</Typography>
+                <Typography variant="h6">Add your podium prediction for {props.event.name} final
+                    at {props.competition.name}</Typography>
                 <Autocomplete
                     id="firstPlaceSelect"
-                    options={competitors}
+                    options={props.competitors}
                     getOptionLabel={(competitor) => competitor.name !== null ? competitor.name : ''}
                     value={firstPlace}
                     onChange={handleFirstPlaceChange}
@@ -53,7 +48,7 @@ const AddPredictionForm = (props: any) => {
                 />
                 <Autocomplete
                     id="secondPlaceSelect"
-                    options={competitors}
+                    options={props.competitors}
                     getOptionLabel={(competitor) => competitor.name !== null ? competitor.name : ''}
                     value={secondPlace}
                     onChange={handleSecondPlaceChange}
@@ -63,12 +58,12 @@ const AddPredictionForm = (props: any) => {
                 />
                 <Autocomplete
                     id="thirdPlaceSelect"
-                    options={competitors}
+                    options={props.competitors}
                     getOptionLabel={(competitor) => competitor.name !== null ? competitor.name : ''}
                     value={thirdPlace}
                     onChange={handleThirdPlaceChange}
                     renderInput={(params) => (
-                        <TextField {...params} label="Third place" variant="outlined" sx={textFieldStyle} />
+                        <TextField {...params} label="Third place" variant="outlined" sx={textFieldStyle}/>
                     )}
                 />
                 <Button color="primary" variant="contained" onClick={handleSubmit}>Submit</Button>
