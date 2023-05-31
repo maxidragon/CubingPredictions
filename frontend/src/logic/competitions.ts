@@ -21,13 +21,14 @@ export const getCompetitionInfo = async (id: string) => {
 };
 
 export const generateRanking = (persons: any, event: string, type: string) => {
-    const ranking: { name: string, country: string, result: string, worldRank: number }[] = [];
+    const ranking: { name: string, wcaId: string, country: string, result: string, worldRank: number }[] = [];
     persons.map((person: any) => {
         if (person.registration && person.registration.eventIds.includes(event)) {
             person.personalBests.map((pb: any) => {
                 if (pb.eventId === event && pb.type === type) {
                     ranking.push({
                         name: person.name,
+                        wcaId: person.wcaId,
                         country: person.country,
                         result: resultToString(pb.best, event, type),
                         worldRank: pb.worldRanking
