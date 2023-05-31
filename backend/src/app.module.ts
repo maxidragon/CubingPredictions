@@ -6,6 +6,7 @@ import { AuthModule } from './auth/auth.module';
 import { MailerModule } from '@nestjs-modules/mailer';
 import { PredictionsModule } from './predictions/predictions.module';
 import { CompetitionsModule } from './competitions/competitions.module';
+import { RankingModule } from './ranking/ranking.module';
 
 @Module({
   imports: [
@@ -28,6 +29,7 @@ import { CompetitionsModule } from './competitions/competitions.module';
     }),
     PredictionsModule,
     CompetitionsModule,
+    RankingModule,
   ],
   controllers: [AppController],
   providers: [AppService],

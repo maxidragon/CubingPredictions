@@ -1,9 +1,23 @@
-import {useState} from 'react';
+import {useEffect, useState} from 'react';
 import {Box, Container, Typography} from "@mui/material";
 import RankingTable from '../../../Components/RankingTable/RankingTable';
+import {getPodiumPredictionsRanking} from "../../../logic/ranking";
 
 const PodiumPredictionsRanking = () => {
     const [persons, setPersons] = useState<any>([]);
+    const [loading, setIsLoading] = useState<boolean>(false);
+    const fetchData = async () => {
+        setIsLoading(true);
+        return await getPodiumPredictionsRanking();
+    };
+    useEffect(() => {
+        fetchData().then((data) => {
+            setPersons(data);
+            setIsLoading(false);
+        }).catch((err) => {
+            console.log(err);
+        });
+    }, []);
     return (
         <>
             <Box

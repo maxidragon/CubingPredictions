@@ -15,18 +15,18 @@ const RankingTable = (props: any) => {
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        {props.persons.map((person: any) => (
+                        {props.persons.map((person: any, position: number) => (
                             <TableRow key={person.id}>
                                 <TableCell>
-
+                                    {position+1}
                                 </TableCell>
                                 <TableCell>
-                                    {person.name}
+                                    {person.user.username}
                                 </TableCell>
                                 <TableCell>
                                     {person.wcaId &&
                                     <Link href={`https://worldcubeassociation.org/persons/${person.wcaId}`} underline="none" target="_blank">
-                                        {person.wcaId}
+                                        {person.user.wcaId}
                                     </Link>
                                     }
                                 </TableCell>
