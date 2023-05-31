@@ -9,6 +9,7 @@ import Register from "./Pages/Auth/Register/Register";
 import Login from "./Pages/Auth/Login/Login";
 import {SnackbarProvider} from "notistack";
 import About from "./Pages/About/About";
+import Ranking from "./Pages/Predictions/Ranking/PodiumPredictionsRanking";
 
 const router = createBrowserRouter([
   // {
@@ -38,6 +39,10 @@ const router = createBrowserRouter([
   {
     path: "/competitions/:competitionId",
     element: <Layout children={<Competition />} />,
+  },
+  {
+    path: "/podium/ranking",
+    element: <Layout children={<Ranking />} />,
   }
 ]);
 const lightTheme = createTheme({

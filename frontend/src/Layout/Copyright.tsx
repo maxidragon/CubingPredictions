@@ -9,9 +9,7 @@ function Copyright(props: any) {
         <div>
             <Typography variant="body2" color="text.secondary" align="center" {...props}>
                 Cubing Predictions
-
             </Typography>
-
             <Typography variant="body2" color="text.secondary" align="center" {...props}>
                 Made with <FavoriteIcon sx={{color: 'red',verticalAlign: 'middle',}} /> by{' '}
                 <Link

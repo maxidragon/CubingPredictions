@@ -142,7 +142,9 @@ export default function Register() {
                             </Grid>
                         </Box>
                     </Box>
-                    <Copyright sx={{mt: 25}}/>
+                    <Grid item sx={{mt: 10}}>
+                        <Copyright />
+                    </Grid>
                 </Container>
             </Grid>
         </ThemeProvider>

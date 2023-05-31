@@ -123,7 +123,9 @@ function Login() {
                                     </Link>
                                 </Grid>
                             </Grid>
-                            <Copyright sx={{mt: 40}}/>
+                            <Grid item sx={{mt: 20}}>
+                                <Copyright />
+                            </Grid>
                         </Box>
                     </Box>
                 </Grid>

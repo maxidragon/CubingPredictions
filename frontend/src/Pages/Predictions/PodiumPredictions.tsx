@@ -1,7 +1,18 @@
 import {searchCompetitions} from '../../logic/competitions';
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import {Link} from 'react-router-dom';
-import {Box, Grid, List, ListItemButton, ListItemIcon, ListItemText, Paper, TextField, Typography} from '@mui/material';
+import {
+    Box,
+    CircularProgress,
+    Grid,
+    List,
+    ListItemButton,
+    ListItemIcon,
+    ListItemText,
+    Paper,
+    TextField,
+    Typography
+} from '@mui/material';
 import CompetitionFlagIcon from '../../Components/CompetitionFlagIcon';
 
 const PodiumPredictions = () => {
@@ -10,12 +21,25 @@ const PodiumPredictions = () => {
     const [searchText, setSearchText] = useState<string>('');
     const handleSearch = async (event: any) => {
         setSearchText(event.target.value);
-        const searchedCompetitions = await searchCompetitions(event.target.value);
-        setCompetitions(searchedCompetitions);
+        setCompetitions(await fetchData(event.target.value));
+        setIsLoading(false);
     };
+    const fetchData = async (q: string) => {
+        setIsLoading(true);
+        return await searchCompetitions(q);
+    };
+    useEffect(() => {
+        fetchData('').then((data) => {
+            setCompetitions(data);
+            setIsLoading(false);
+        }).catch((err) => {
+            console.log(err);
+        });
+    }, []);
 
     return (
         <>
+
             <Box
                 sx={{
                     py: {xs: 2, md: 3},
@@ -35,6 +59,7 @@ const PodiumPredictions = () => {
                     </Grid>
                     <Grid item>
                         <Paper>
+                            {isLoading ? <Box sx={{display: 'flex', alignItems: 'center', justifyContent: 'center', textAlign: 'center'}}><CircularProgress  /></Box> : (
                             <List dense={true} disablePadding>
                                 {competitions && competitions.map((competition) => (
                                     <ListItemButton
@@ -53,6 +78,7 @@ const PodiumPredictions = () => {
                                     </ListItemButton>
                                 ))}
                             </List>
+                                )}
                         </Paper>
                     </Grid>
                 </Grid>
