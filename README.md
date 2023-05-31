@@ -2,7 +2,7 @@
 <br />
 <div align="center">
   <strong>
-    An website for predict results at WCA competitions.
+    Website for predicting results at WCA competitions.
   </strong>
 </div>
 <br />
