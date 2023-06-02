@@ -181,4 +181,114 @@ export class PredictionsService {
       );
     }
   }
+  async checkPodiumPredictionsForCompetition(competitionId: string) {
+    const competitionInfo = await this.competitionsService.getCompetitionInfo(
+      competitionId,
+    );
+    const basicInfo = await this.competitionsService.getBasicInfo(
+      competitionId,
+    );
+    const events = basicInfo.event_ids;
+    events.map((eventId: string) => {
+      const eventInfo = competitionInfo.events.find(
+        (event) => event.id === eventId,
+      );
+      const roundsCount = eventInfo.rounds.length;
+      const round = eventInfo.rounds.find(
+        (round) => round.id === `${eventId}-r${roundsCount}`,
+      );
+      const firstPlace = round.results.find((result) => result.ranking === 1);
+      const secondPlace = round.results.find((result) => result.ranking === 2);
+      const thirdPlace = round.results.find((result) => result.ranking === 3);
+      const firstPlaceWcaId = competitionInfo.persons.find(
+        (person) => person.registrantId === firstPlace.personId,
+      ).wcaId;
+      const secondPlaceWcaId = competitionInfo.persons.find(
+        (person) => person.registrantId === secondPlace.personId,
+      ).wcaId;
+      const thirdPlaceWcaId = competitionInfo.persons.find(
+        (person) => person.registrantId === thirdPlace.personId,
+      ).wcaId;
+      this.checkPodiumPredictionsForEvent(
+        competitionId,
+        eventId,
+        firstPlaceWcaId,
+        secondPlaceWcaId,
+        thirdPlaceWcaId,
+      );
+    });
+    return true;
+  }
+  async checkPodiumPredictionsForEvent(
+    competitionId: string,
+    eventId: string,
+    firstPlaceWcaId: string,
+    secondPlaceWcaId: string,
+    thirdPlaceWcaId: string,
+  ) {
+    const podiumPredictions = await this.prisma.podiumPrediction.findMany({
+      where: {
+        competitionId,
+        eventId,
+      },
+    });
+
+    for (const prediction of podiumPredictions) {
+      const {
+        firstPlaceWcaId: dbFirstPlace,
+        secondPlaceWcaId: dbSecondPlace,
+        thirdPlaceWcaId: dbThirdPlace,
+      } = prediction;
+      let score = 0;
+
+      if (
+        firstPlaceWcaId === dbFirstPlace &&
+        secondPlaceWcaId === dbSecondPlace &&
+        thirdPlaceWcaId === dbThirdPlace
+      ) {
+        score = 20;
+      } else if (
+        (firstPlaceWcaId === dbFirstPlace &&
+          secondPlaceWcaId === dbSecondPlace) ||
+        (firstPlaceWcaId === dbFirstPlace &&
+          thirdPlaceWcaId === dbThirdPlace) ||
+        (secondPlaceWcaId === dbSecondPlace && thirdPlaceWcaId === dbThirdPlace)
+      ) {
+        score = 15;
+      } else if (
+        firstPlaceWcaId === dbFirstPlace ||
+        secondPlaceWcaId === dbSecondPlace ||
+        thirdPlaceWcaId === dbThirdPlace
+      ) {
+        score = 10;
+      } else if (
+        (firstPlaceWcaId === dbSecondPlace &&
+          secondPlaceWcaId === dbThirdPlace &&
+          thirdPlaceWcaId === dbFirstPlace) ||
+        (firstPlaceWcaId === dbThirdPlace &&
+          secondPlaceWcaId === dbFirstPlace &&
+          thirdPlaceWcaId === dbSecondPlace) ||
+        (firstPlaceWcaId === dbSecondPlace &&
+          secondPlaceWcaId === dbFirstPlace &&
+          thirdPlaceWcaId === dbThirdPlace) ||
+        (firstPlaceWcaId === dbThirdPlace &&
+          secondPlaceWcaId === dbSecondPlace &&
+          thirdPlaceWcaId === dbFirstPlace) ||
+        (firstPlaceWcaId === dbThirdPlace &&
+          secondPlaceWcaId === dbSecondPlace &&
+          thirdPlaceWcaId === dbFirstPlace)
+      ) {
+        score = 5;
+      }
+      await this.prisma.podiumPrediction.update({
+        where: {
+          id: prediction.id,
+        },
+        data: {
+          score,
+          isChecked: true,
+        },
+      });
+    }
+  }
 }
