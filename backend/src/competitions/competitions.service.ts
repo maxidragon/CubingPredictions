@@ -3,6 +3,15 @@ import axios from '../axios';
 
 @Injectable()
 export class CompetitionsService {
+  async getBasicInfo(id: string) {
+    try {
+      const response = await axios.get('competitions/' + id);
+      return response.data;
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
   async getCompetitionInfo(id: string) {
     try {
       const response = await axios.get('competitions/' + id + '/wcif/public');
@@ -11,6 +20,7 @@ export class CompetitionsService {
       console.error(error);
     }
   }
+
   async getFinalStartTime(compId: string, eventId: string) {
     const competitionInfo = await this.getCompetitionInfo(compId);
     const eventInfo = competitionInfo.events.find(
@@ -31,6 +41,7 @@ export class CompetitionsService {
     });
     return finalStartTime;
   }
+
   async getUpcomingCompetitions() {
     const today = new Date();
     const year = today.getFullYear();
@@ -67,6 +78,7 @@ export class CompetitionsService {
       console.error(error);
     }
   }
+
   async getCompetitorsForEvent(compId: string, eventId: string) {
     const competitionInfo = await this.getCompetitionInfo(compId);
     const eventCompetitors = [];
@@ -95,6 +107,7 @@ export class CompetitionsService {
     });
     return eventCompetitors;
   }
+
   async searchCompetitions(query: string) {
     const today = new Date();
     let start = '';
@@ -112,5 +125,15 @@ export class CompetitionsService {
       },
     });
     return response.data;
+  }
+
+  async getRegistrationInfo(id: string) {
+    const compData = await this.getBasicInfo(id);
+    return {
+      registrationOpenDate: compData.registration_open,
+      registrationCloseDate: compData.registration_close,
+      isRegistrationOpen: new Date() > new Date(compData.registration_open),
+      isRegistrationClosed: new Date() > new Date(compData.registration_close),
+    };
   }
 }

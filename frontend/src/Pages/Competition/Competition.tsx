@@ -40,7 +40,7 @@ const Competition = (props: any) => {
             }}>
                 <Typography variant="h4">{competition.name}</Typography>
                 <EventSelect selectedEvent={event} events={competition.events} eventChange={handleEventChange}/>
-            <CompetitionEvent competition={competition} event={event}/>
+                <CompetitionEvent competition={competition} event={event}/>
             </Box>
         </>
     )

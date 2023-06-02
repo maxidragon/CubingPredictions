@@ -78,3 +78,18 @@ export const searchCompetitions = async (name: string) => {
         return [];
     }
 };
+
+export const getRegistrationData = async (id: string) => {
+    try {
+        const response = await fetch(`http://localhost:5000/competitions/registration/${id}`);
+        return await response.json();
+    } catch (err) {
+        console.log(err);
+        return [];
+    }
+}
+
+export const isRegistrationClosed = async (id: string) => {
+    const data = await getRegistrationData(id);
+    return data.isRegistrationClosed;
+}

@@ -8,7 +8,10 @@ export class CompetitionsController {
   async getCompetitionInfo(@Param('id') id: string) {
     return await this.competitionsService.getCompetitionInfo(id);
   }
-
+  @Get('registration/:id/')
+  async getRegistrationInfo(@Param('id') id: string) {
+    return await this.competitionsService.getRegistrationInfo(id);
+  }
   @Get(':id/final/:eventId/')
   async getCompetitorsId(
     @Param('id') id: string,
