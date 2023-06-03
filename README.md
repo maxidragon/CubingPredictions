@@ -1,10 +1,6 @@
 ## Cubing Predictions
 
-Website for predicting results at WCA competitions.
-
-
-
-## Introductio
+## Introduction
 
 
 Welcome to the Cubing predictions repository! Here you can find all the source code of this app. 
