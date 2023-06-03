@@ -181,6 +181,34 @@ export class PredictionsService {
       );
     }
   }
+  async checkAllPodiumPredictions() {
+    const predictions = await this.prisma.podiumPrediction.findMany({
+      where: {
+        isChecked: false,
+      },
+      select: {
+        competitionId: true,
+        eventId: true,
+      },
+    });
+    const currentDate = new Date();
+
+    predictions.map(async (prediction) => {
+      const timeDifferenceInMilliseconds =
+        currentDate.getTime() -
+        (
+          await this.competitionsService.getFinalEndTime(
+            prediction.competitionId,
+            prediction.eventId,
+          )
+        ).getTime();
+      const minimumSixHoursInMilliseconds = 6 * 60 * 60 * 1000;
+
+      if (timeDifferenceInMilliseconds >= minimumSixHoursInMilliseconds) {
+        this.checkPodiumPredictionsForCompetition(prediction.competitionId);
+      }
+    });
+  }
   async checkPodiumPredictionsForCompetition(competitionId: string) {
     const competitionInfo = await this.competitionsService.getCompetitionInfo(
       competitionId,

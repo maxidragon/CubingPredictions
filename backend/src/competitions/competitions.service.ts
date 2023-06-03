@@ -41,6 +41,26 @@ export class CompetitionsService {
     });
     return finalStartTime;
   }
+  async getFinalEndTime(compId: string, eventId: string) {
+    const competitionInfo = await this.getCompetitionInfo(compId);
+    const eventInfo = competitionInfo.events.find(
+      (event) => event.id === eventId,
+    );
+    const roundsCount = eventInfo.rounds.length;
+    const venues = competitionInfo.schedule.venues;
+    let finalEndTime = new Date();
+    venues.map((venue) => {
+      venue.rooms.map((room) => {
+        room.activities.map((activity) => {
+          if (activity.activityCode === `${eventId}-r${roundsCount}`) {
+            finalEndTime = new Date(activity.endTime);
+            return activity.endTime;
+          }
+        });
+      });
+    });
+    return finalEndTime;
+  }
 
   async getUpcomingCompetitions() {
     const today = new Date();
