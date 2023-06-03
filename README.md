@@ -1,11 +1,7 @@
-<h1 align="center">Cubing predictions</h1>
-<br />
-<div align="center">
-  <strong>
-    Website for predicting results at WCA competitions.
-  </strong>
-</div>
-<br />
+## Cubing Predictions
+
+Website for predicting results at WCA competitions.
+
 
 
 ## Introductio
