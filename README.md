@@ -1,14 +1,6 @@
-<h1 align="center">Cubing predictions</h1>
-<br />
-<div align="center">
-  <strong>
-    Website for predicting results at WCA competitions.
-  </strong>
-</div>
-<br />
+## Cubing Predictions
 
-
-## Introductio
+## Introduction
 
 
 Welcome to the Cubing predictions repository! Here you can find all the source code of this app. 
