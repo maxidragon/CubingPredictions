@@ -37,15 +37,12 @@ const About = () => {
                            How it works?
                         </Typography>
                         <Typography>
-                            //TODO
+                            The website uses a public API provided by WCA to retrieve competition data. You can find the competitions that interest you and try to predict who will make it to the podium in each event. Currently, you can only select competitors who have a WCA ID. If you correctly predict all three individuals, you will receive 20 points. In the case of two correct predictions, you will receive 15 points. If you correctly predict one person, you will receive 10 points. If you have two correct predictions but in the wrong order, you will receive 5 points. If none of the individuals match, you will receive 0 points. You can make predictions after the registration closes until the start of the respective final. Currently, it is not possible to change your selections, but in the future, it will be allowed with a lower point reward. In the future, there will likely be more prediction options, with a focus on record predictions.
                         </Typography>
                     </Grid>
                     <Grid item>
                         <Typography variant="h5" gutterBottom>
                             Technical details
-                        </Typography>
-                        <Typography gutterBottom>
-                          This website use an API provided by World Cube Association to fetch information about competitions.
                         </Typography>
                         <Typography gutterBottom>
                            If you want to check the source code you can do it! Cubing predictions is an open source project and you can find the code on{' '}
