@@ -1,6 +1,6 @@
 import React from 'react';
 import {createTheme, ThemeProvider} from "@mui/material";
-import {createBrowserRouter, RouterProvider} from "react-router-dom";
+import {createHashRouter, RouterProvider} from "react-router-dom";
 import Layout from "./Layout/Layout";
 import Main from "./Pages/Main/Main";
 import PodiumPredictions from "./Pages/Predictions/PodiumPredictions";
