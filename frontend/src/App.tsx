@@ -33,6 +33,10 @@ const router = createBrowserRouter([
     element: <Layout children={<Main />} />,
   },
   {
+    path: "/CubingPredictions",
+    element: <Layout children={<Main />} />,
+  },
+  {
     path: "/podium",
     element: <Layout children={<PodiumPredictions />} />,
   },
