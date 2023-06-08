@@ -1,6 +1,6 @@
 import React from 'react';
 import {createTheme, ThemeProvider} from "@mui/material";
-import {createBrowserRouter, RouterProvider} from "react-router-dom";
+import {createHashRouter, RouterProvider} from "react-router-dom";
 import Layout from "./Layout/Layout";
 import Main from "./Pages/Main/Main";
 import PodiumPredictions from "./Pages/Predictions/PodiumPredictions";
@@ -12,7 +12,7 @@ import About from "./Pages/About/About";
 import Ranking from "./Pages/Predictions/Ranking/PodiumPredictionsRanking";
 import ForgotPassword from "./Pages/Auth/ForgotPassword/ForgotPassword";
 
-const router = createBrowserRouter([
+const router = createHashRouter([
   // {
   //     path: "*",
   //     element: <>,
@@ -35,10 +35,6 @@ const router = createBrowserRouter([
   },
   {
     path: "/",
-    element: <Layout children={<Main />} />,
-  },
-  {
-    path: "/CubingPredictions",
     element: <Layout children={<Main />} />,
   },
   {
