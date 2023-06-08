@@ -1,13 +1,12 @@
 import {useState} from "react";
 import {Autocomplete, Box, Button, TextField, Typography} from "@mui/material";
 import {addPodiumPrediction} from "../../../logic/predictions";
-import {useSnackbar} from "notistack";
+import {enqueueSnackbar} from "notistack";
 
 const AddPredictionForm = (props: any) => {
     const [firstPlace, setFirstPlace] = useState<any>(null);
     const [secondPlace, setSecondPlace] = useState<any>(null);
     const [thirdPlace, setThirdPlace] = useState<any>(null);
-    const {enqueueSnackbar, closeSnackbar} = useSnackbar();
 
     const handleFirstPlaceChange = (event: any, newValue: any) => {
         setFirstPlace(newValue);

@@ -10,17 +10,18 @@ const Competition = (props: any) => {
     const {competitionId} = useParams<{ competitionId: string }>();
     const [competition, setCompetition] = useState<any>({});
     const [event, setEvent] = useState<any>({});
-    const fetchData = async () => {
-        if (competitionId) {
-            const info = await getCompetitionInfo(competitionId);
-            console.log(info);
-            setCompetition(info);
-            setEvent(events.find(e => e.id === info.events[0].id));
-        }
-    };
+
     useEffect(() => {
+        const fetchData = async () => {
+            if (competitionId) {
+                const info = await getCompetitionInfo(competitionId);
+                console.log(info);
+                setCompetition(info);
+                setEvent(events.find(e => e.id === info.events[0].id));
+            }
+        };
         fetchData();
-    }, []);
+    }, [competitionId]);
     const handleEventChange = (id: string) => {
         const newEvent = events.find(e => e.id === id);
         if (newEvent) {

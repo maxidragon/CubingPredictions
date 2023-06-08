@@ -12,31 +12,33 @@ const AddPrediction = (props: any) => {
     const [yourPrediction, setYourPrediction] = useState<any>(null);
     const [isPredicted, setIsPredicted] = useState<boolean>(false);
     const [isRegistrationOpen, setIsRegistrationOpen] = useState<boolean>(true);
-    const fetchData = async () => {
-        const finalStartTime = await getFinalStartTime(props.competition.id, props.event.id);
-        if (new Date(finalStartTime) > new Date()) {
-            setIsAllowed(true);
-        }
-        if (await isRegistrationClosed(props.competition.id)) {
-            setIsRegistrationOpen(false);
-        }
-        const competitors = await getCompetitorsForEvent(props.competition.persons, props.event.id);
-        setCompetitors(competitors);
-        const yourPredictionData = await getYourPrediction(props.competition.id, props.event.id);
-        if (yourPredictionData.statusCode !== 404) {
-            setIsPredicted(true);
-            const prediction = {
-                firstPlace: competitors.find((c: any) => c.wcaId === yourPredictionData.firstPlaceWcaId),
-                secondPlace: competitors.find((c: any) => c.wcaId === yourPredictionData.secondPlaceWcaId),
-                thirdPlace: competitors.find((c: any) => c.wcaId === yourPredictionData.thirdPlaceWcaId)
-            };
-            setYourPrediction(prediction);
-        }
-        else {
-            setIsPredicted(false);
-        }
-    };
+
+
     useEffect(() => {
+        const fetchData = async () => {
+            const finalStartTime = await getFinalStartTime(props.competition.id, props.event.id);
+            if (new Date(finalStartTime) > new Date()) {
+                setIsAllowed(true);
+            }
+            if (await isRegistrationClosed(props.competition.id)) {
+                setIsRegistrationOpen(false);
+            }
+            const competitors = await getCompetitorsForEvent(props.competition.persons, props.event.id);
+            setCompetitors(competitors);
+            const yourPredictionData = await getYourPrediction(props.competition.id, props.event.id);
+            if (yourPredictionData.statusCode !== 404) {
+                setIsPredicted(true);
+                const prediction = {
+                    firstPlace: competitors.find((c: any) => c.wcaId === yourPredictionData.firstPlaceWcaId),
+                    secondPlace: competitors.find((c: any) => c.wcaId === yourPredictionData.secondPlaceWcaId),
+                    thirdPlace: competitors.find((c: any) => c.wcaId === yourPredictionData.thirdPlaceWcaId)
+                };
+                setYourPrediction(prediction);
+            }
+            else {
+                setIsPredicted(false);
+            }
+        };
         fetchData();
     }, [props.competition, props.event]);
 
