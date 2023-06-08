@@ -22,9 +22,9 @@ export const getCompetitionInfo = async (id: string) => {
 
 export const generateRanking = (persons: any, event: string, type: string) => {
     const ranking: { name: string, wcaId: string, country: string, result: string, worldRank: number }[] = [];
-    persons.map((person: any) => {
+    persons.forEach((person: any) => {
         if (person.registration && person.registration.eventIds.includes(event)) {
-            person.personalBests.map((pb: any) => {
+            person.personalBests.forEach((pb: any) => {
                 if (pb.eventId === event && pb.type === type) {
                     ranking.push({
                         name: person.name,
@@ -56,7 +56,7 @@ export const getFinalStartTime = async (id: string, event: string) => {
 export const getCompetitorsForEvent = async (competitors: any, event: string) => {
     const competitorsForEvent: any[] = [];
     if (competitors) {
-        competitors.map((competitor: any) => {
+        competitors.forEach((competitor: any) => {
             if (competitor.registration && competitor.registration.eventIds.includes(event) && competitor.wcaId) {
                 competitorsForEvent.push({
                     name: competitor.name,

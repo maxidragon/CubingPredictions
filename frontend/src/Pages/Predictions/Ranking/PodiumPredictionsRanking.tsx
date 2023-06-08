@@ -1,5 +1,5 @@
 import {useEffect, useState} from 'react';
-import {Box, Container, Typography} from "@mui/material";
+import {Box, CircularProgress, Container, Typography} from "@mui/material";
 import RankingTable from '../../../Components/RankingTable/RankingTable';
 import {getPodiumPredictionsRanking} from "../../../logic/ranking";
 
@@ -27,6 +27,7 @@ const PodiumPredictionsRanking = () => {
                     pb: 6,
                 }}
             >
+                {loading ? <Box sx={{display: 'flex', alignItems: 'center', justifyContent: 'center', textAlign: 'center'}}><CircularProgress  /></Box> : (
                 <Container sx={{display: 'flex', flexDirection: 'column'}}>
                     <Typography
                         variant="h4"
@@ -38,6 +39,7 @@ const PodiumPredictionsRanking = () => {
                     </Typography>
                     <RankingTable persons={persons} />
                 </Container>
+                    )}
             </Box>
         </>
     )

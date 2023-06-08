@@ -7,13 +7,7 @@ const Psychsheet = (props: any) => {
     const [ranking, setRanking] = useState<any>([]);
     const [type, setType] = useState<string>('average');
 
-    const generateRankingData = () => {
-        if (props.competition.persons) {
-            const generatedRanking = generateRanking(props.competition.persons, props.event, type);
-            console.log(generatedRanking);
-            setRanking(generatedRanking);
-        }
-    };
+
     const handleTypeChange = () => {
         if (type === 'average') {
             setType('single');
@@ -22,8 +16,15 @@ const Psychsheet = (props: any) => {
         }
     }
     useEffect(() => {
+        const generateRankingData = () => {
+            if (props.competition.persons) {
+                const generatedRanking = generateRanking(props.competition.persons, props.event, type);
+                console.log(generatedRanking);
+                setRanking(generatedRanking);
+            }
+        };
         generateRankingData();
-    }, [props.competition.persons, type]);
+    }, [props.competition.persons, type, props.event]);
     return (
         <>
             <Box sx={{mb: 5, mt: 2}}>

@@ -18,7 +18,7 @@ export class LoginController {
   @HttpCode(HttpStatus.OK)
   async login(@Body() dto: LoginDto, @Res() res: Response) {
     const jwt = await this.authService.login(dto);
-    res.cookie(...jwt);
+    res.cookie('jwt', jwt[1]);
     const info = await this.authService.getUserPublicInfo(dto.email);
     res.cookie('user_info', JSON.stringify(info));
     res.send({ token: jwt[1] });
