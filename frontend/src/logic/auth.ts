@@ -19,6 +19,22 @@ export const logout = async () => {
     });
 }
 
+export const forgotPassword = async (email: string) => {
+    console.log(email);
+    let myHeaders = new Headers();
+    myHeaders.append("Content-Type", "application/json");
+    const response = await fetch("http://localhost:5000/auth/password/forgot", {
+        method: "POST",
+        headers: myHeaders,
+        redirect: "follow",
+        credentials: "include",
+        body: JSON.stringify({ email: email }),
+    });
+    const data =  await response.json();
+    console.log(data);
+    return data;
+};
+
 export const isUserLoggedIn = () => {
     const user = getUser();
     return !!user && Object.keys(user).length > 0;

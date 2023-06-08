@@ -10,6 +10,7 @@ import Login from "./Pages/Auth/Login/Login";
 import {SnackbarProvider} from "notistack";
 import About from "./Pages/About/About";
 import Ranking from "./Pages/Predictions/Ranking/PodiumPredictionsRanking";
+import ForgotPassword from "./Pages/Auth/ForgotPassword/ForgotPassword";
 
 const router = createBrowserRouter([
   // {
@@ -23,6 +24,10 @@ const router = createBrowserRouter([
   {
     path: "/auth/register",
     element: <Register/>,
+  },
+  {
+    path: "/auth/password/forgot",
+    element: <ForgotPassword />,
   },
   {
     path: '/about',
