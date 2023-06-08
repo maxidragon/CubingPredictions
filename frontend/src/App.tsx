@@ -11,7 +11,7 @@ import {SnackbarProvider} from "notistack";
 import About from "./Pages/About/About";
 import Ranking from "./Pages/Predictions/Ranking/PodiumPredictionsRanking";
 
-const router = createBrowserRouter([
+const router = createHashRouter([
   // {
   //     path: "*",
   //     element: <>,
@@ -30,10 +30,6 @@ const router = createBrowserRouter([
   },
   {
     path: "/",
-    element: <Layout children={<Main />} />,
-  },
-  {
-    path: "/CubingPredictions",
     element: <Layout children={<Main />} />,
   },
   {
