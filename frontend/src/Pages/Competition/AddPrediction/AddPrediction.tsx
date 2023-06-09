@@ -4,7 +4,7 @@ import TooLateToAdd from "../../../Components/Predictions/TooLateToAdd/TooLateTo
 import AddPredictionForm from "../../../Components/Predictions/AddPredictionForm/AddPredictionForm";
 import {getYourPrediction} from "../../../logic/predictions";
 import AlreadyPredicted from "../../../Components/Predictions/AlreadyPredicted/AlreadyPredicted";
-import {Typography} from "@mui/material";
+import {Box, CircularProgress, Typography} from "@mui/material";
 
 const AddPrediction = (props: any) => {
     const [competitors, setCompetitors] = useState<any>([]);
@@ -12,10 +12,11 @@ const AddPrediction = (props: any) => {
     const [yourPrediction, setYourPrediction] = useState<any>(null);
     const [isPredicted, setIsPredicted] = useState<boolean>(false);
     const [isRegistrationOpen, setIsRegistrationOpen] = useState<boolean>(true);
-
+    const [isLoading, setIsLoading] = useState<boolean>(true);
 
     useEffect(() => {
         const fetchData = async () => {
+            setIsLoading(true);
             const finalStartTime = await getFinalStartTime(props.competition.id, props.event.id);
             if (new Date(finalStartTime) > new Date()) {
                 setIsAllowed(true);
@@ -38,15 +39,17 @@ const AddPrediction = (props: any) => {
             else {
                 setIsPredicted(false);
             }
+            setIsLoading(false);
         };
         fetchData();
     }, [props.competition, props.event]);
-
     return (
         <>
-            {isAllowed ?
+            {isLoading ? <Box sx={{display: 'flex', alignItems: 'center', justifyContent: 'center', textAlign: 'center'}}><CircularProgress  /></Box>: (
+            isAllowed ?
                 isRegistrationOpen ? <Typography variant="h6">You can add your prediction after registration closes.</Typography> :
-                (isPredicted ? <AlreadyPredicted competition={props.competition} event={props.event} competitors={competitors} yourPrediction={yourPrediction}/>: <AddPredictionForm competition={props.competition} event={props.event} competitors={competitors} yourPrediction={yourPrediction}/> ) : <TooLateToAdd />}
+                (isPredicted ? <AlreadyPredicted competition={props.competition} event={props.event} competitors={competitors} yourPrediction={yourPrediction}/>: <AddPredictionForm competition={props.competition} event={props.event} competitors={competitors} yourPrediction={yourPrediction}/> ) : <TooLateToAdd />
+            )}
         </>
     )
 };

@@ -26,7 +26,7 @@ function ForgotPassword() {
             } else if (status === 404) {
                 enqueueSnackbar('User with this email does not exist', {variant: "error"});
             } else {
-                enqueueSnackbar('Error while sending email', {variant: "error"});
+                enqueueSnackbar('ErrorElement while sending email', {variant: "error"});
             }
         }
     };

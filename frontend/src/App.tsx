@@ -12,12 +12,13 @@ import About from "./Pages/About/About";
 import Ranking from "./Pages/Predictions/Ranking/PodiumPredictionsRanking";
 import ForgotPassword from "./Pages/Auth/ForgotPassword/ForgotPassword";
 import ResetPassword from "./Pages/Auth/ResetPassword/ResetPassword";
+import ErrorElement from "./Pages/ErrorElement/ErrorElement";
 
 const router = createHashRouter([
-  // {
-  //     path: "*",
-  //     element: <>,
-  // },
+  {
+      path: "*",
+      element: <Layout children={<ErrorElement message={'404 not found'} />} />,
+  },
   {
     path: "/auth/login",
     element: <Login/>,
