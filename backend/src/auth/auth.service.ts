@@ -1,4 +1,9 @@
-import { ForbiddenException, Injectable } from '@nestjs/common';
+import {
+  ForbiddenException,
+  HttpException,
+  HttpStatus,
+  Injectable,
+} from '@nestjs/common';
 import { DbService } from '../db/db.service';
 import { RegisterDto } from './dto/register.dto';
 import { JwtAuthDto } from './dto/jwt-auth.dto';
@@ -109,7 +114,7 @@ export class AuthService {
       },
     });
     if (!user) {
-      return 'User not found';
+      throw new HttpException('User not found', HttpStatus.NOT_FOUND);
     }
     const emailHTML = `
       <html lang="en">

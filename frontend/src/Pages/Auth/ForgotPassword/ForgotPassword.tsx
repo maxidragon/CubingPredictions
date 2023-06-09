@@ -10,6 +10,7 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Copyright from './../../../Layout/Copyright';
 import {forgotPassword} from "../../../logic/auth";
+import {enqueueSnackbar} from "notistack";
 
 
 function ForgotPassword() {
@@ -19,7 +20,14 @@ function ForgotPassword() {
         if (emailRef.current.value === '') {
             return;
         } else {
-            await forgotPassword(emailRef.current.value);
+            const status = await forgotPassword(emailRef.current.value);
+            if (status === 201) {
+                enqueueSnackbar('Success, check your email', {variant: "success"});
+            } else if (status === 404) {
+                enqueueSnackbar('User with this email does not exist', {variant: "error"});
+            } else {
+                enqueueSnackbar('Error while sending email', {variant: "error"});
+            }
         }
     };
 

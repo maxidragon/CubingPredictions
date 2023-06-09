@@ -30,9 +30,7 @@ export const forgotPassword = async (email: string) => {
         credentials: "include",
         body: JSON.stringify({ email: email }),
     });
-    const data =  await response.json();
-    console.log(data);
-    return data;
+    return response.status;
 };
 
 export const isUserLoggedIn = () => {

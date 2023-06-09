@@ -24,7 +24,7 @@ import { ScheduleModule } from '@nestjs/schedule';
           },
         },
         defaults: {
-          from: 'Cubing predictions',
+          from: `Cubing predictions <${process.env.SMTP_USER}>`,
         },
       }),
     }),

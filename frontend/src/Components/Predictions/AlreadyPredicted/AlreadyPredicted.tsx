@@ -7,9 +7,9 @@ const AlreadyPredicted = (props: any) => {
                 at {props.competition.name}</Typography>
             {props.yourPrediction.firstPlace && (<>
                     <Typography variant="body1">Your prediction:</Typography>
-                    <Typography variant="body1">1. {props.yourPrediction.firstPlace.name}</Typography>
-                    <Typography variant="body1">2. {props.yourPrediction.secondPlace.name}</Typography>
-                    <Typography variant="body1">3. {props.yourPrediction.thirdPlace.name}</Typography>
+                    <Typography variant="body1">1. {props.yourPrediction.firstPlace.name} ({props.yourPrediction.firstPlace.wcaId})</Typography>
+                    <Typography variant="body1">2. {props.yourPrediction.secondPlace.name} ({props.yourPrediction.secondPlace.wcaId})</Typography>
+                    <Typography variant="body1">3. {props.yourPrediction.thirdPlace.name} ({props.yourPrediction.thirdPlace.wcaId})</Typography>
                 </>
             )}
         </>

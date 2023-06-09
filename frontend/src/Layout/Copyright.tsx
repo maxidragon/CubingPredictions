@@ -3,12 +3,19 @@ import IconButton from '@mui/material/IconButton';
 import GitHubIcon from '@mui/icons-material/GitHub';
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import {Link} from "@mui/material";
+import {Link as RouterLink} from "react-router-dom";
 
 function Copyright(props: any) {
     return (
         <div>
             <Typography variant="body2" color="text.secondary" align="center" {...props}>
+                <Link
+                    component={RouterLink}
+                    to={'/'}
+                    rel="noopener noreferrer"
+                >
                 Cubing Predictions
+                </Link>
             </Typography>
             <Typography variant="body2" color="text.secondary" align="center" {...props}>
                 Made with <FavoriteIcon sx={{color: 'red',verticalAlign: 'middle',}} /> by{' '}
