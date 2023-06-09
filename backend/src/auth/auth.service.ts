@@ -120,7 +120,7 @@ export class AuthService {
       <html lang="en">
         <body>
           <h1>Reset your password</h1>
-          <p>Click <a href="http://localhost:3000/auth/password/reset/${user.tempId}">here</a> to reset your password.</p>
+          <p>Click <a href="http://localhost:3000/#/auth/password/reset/${user.tempId}">here</a> to reset your password.</p>
         </body>
       </html>
     `;
@@ -147,6 +147,7 @@ export class AuthService {
           password: sha512(newPassword),
         },
       });
+      return 'Password changed';
     } catch (err) {
       console.error(err);
       return 'Error';

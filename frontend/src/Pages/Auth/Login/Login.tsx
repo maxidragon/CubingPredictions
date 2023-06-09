@@ -111,7 +111,7 @@ function Login() {
                             </Button>
                             <Grid container>
                                 <Grid item xs>
-                                    <Link to={""}>
+                                    <Link to={"/auth/password/forgot"}>
                                         Forgot password?
                                     </Link>
                                 </Grid>

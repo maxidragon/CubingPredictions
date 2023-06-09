@@ -11,6 +11,7 @@ import {SnackbarProvider} from "notistack";
 import About from "./Pages/About/About";
 import Ranking from "./Pages/Predictions/Ranking/PodiumPredictionsRanking";
 import ForgotPassword from "./Pages/Auth/ForgotPassword/ForgotPassword";
+import ResetPassword from "./Pages/Auth/ResetPassword/ResetPassword";
 
 const router = createHashRouter([
   // {
@@ -28,6 +29,10 @@ const router = createHashRouter([
   {
     path: "/auth/password/forgot",
     element: <ForgotPassword />,
+  },
+  {
+    path: "/auth/password/reset/:resetId",
+    element: <ResetPassword />,
   },
   {
     path: '/about',

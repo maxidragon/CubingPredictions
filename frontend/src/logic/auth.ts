@@ -33,6 +33,20 @@ export const forgotPassword = async (email: string) => {
     return response.status;
 };
 
+export const resetPassword = async (resetId: string, newPassword: string) => {
+    let myHeaders = new Headers();
+    myHeaders.append("Content-Type", "application/json");
+    const response = await fetch("http://localhost:5000/auth/password/reset", {
+        method: "POST",
+        headers: myHeaders,
+        redirect: "follow",
+        credentials: "include",
+        body: JSON.stringify({ tempId: resetId, newPassword: newPassword }),
+    });
+    console.log(response);
+    return response.status;
+};
+
 export const isUserLoggedIn = () => {
     const user = getUser();
     return !!user && Object.keys(user).length > 0;
