@@ -19,7 +19,33 @@ export const getCompetitionInfo = async (id: string) => {
         return {};
     }
 };
-
+export const getPodiumForEvent = (competitionInfo: any, eventId: string) => {
+    const eventInfo = competitionInfo.events.find(
+        (event: any) => event.id === eventId,
+    );
+    console.log(eventInfo);
+    const roundsCount = eventInfo.rounds.length;
+    const round = eventInfo.rounds.find(
+        (round: any) => round.id === `${eventId}-r${roundsCount}`,
+    );
+    const firstPlace = round.results.find((result: any) => result.ranking === 1);
+    const secondPlace = round.results.find((result: any) => result.ranking === 2);
+    const thirdPlace = round.results.find((result: any) => result.ranking === 3);
+    const firstPlaceWcaId = competitionInfo.persons.find(
+        (person: any) => person.registrantId === firstPlace.personId,
+    );
+    const secondPlaceWcaId = competitionInfo.persons.find(
+        (person: any) => person.registrantId === secondPlace.personId,
+    );
+    const thirdPlaceWcaId = competitionInfo.persons.find(
+        (person: any) => person.registrantId === thirdPlace.personId,
+    );
+    return {
+        firstPlace: firstPlaceWcaId,
+        secondPlace: secondPlaceWcaId,
+        thirdPlace: thirdPlaceWcaId,
+    };
+};
 export const generateRanking = (persons: any, event: string, type: string) => {
     const ranking: { name: string, wcaId: string, country: string, result: string, worldRank: number }[] = [];
     persons.forEach((person: any) => {

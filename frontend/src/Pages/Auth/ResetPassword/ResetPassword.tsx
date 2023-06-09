@@ -17,7 +17,7 @@ function ResetPassword() {
     const handleSubmit = async () => {
         if (newPasswordRef.current.value === '' || confirmNewPasswordRef.current.value === '') {
             enqueueSnackbar('Enter password two times!', {variant: "error"});
-        } else if (newPasswordRef.current.value != confirmNewPasswordRef.current.value) {
+        } else if (newPasswordRef.current.value !== confirmNewPasswordRef.current.value) {
             enqueueSnackbar('Passwords do not match!', {variant: "error"});
         } else {
             if (resetId) {
@@ -38,7 +38,7 @@ function ResetPassword() {
         if (resetId === '') {
             navigate('/auth/login');
         }
-    }, [resetId]);
+    }, [resetId, navigate]);
     return (
             <Grid container component="main" sx={{height: '100vh'}}>
                 <CssBaseline/>
