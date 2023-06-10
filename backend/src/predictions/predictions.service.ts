@@ -172,6 +172,8 @@ export class PredictionsService {
           firstPlaceWcaId: true,
           secondPlaceWcaId: true,
           thirdPlaceWcaId: true,
+          score: true,
+          isChecked: true,
         },
       });
       return result;

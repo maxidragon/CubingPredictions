@@ -17,11 +17,19 @@ const Podium = (props: any) => {
     return (
         <>
             <Box sx={{mb: 5, mt: 2}}>
-                <Typography variant="h5">The competition is over, the predictions have been checked.</Typography>
-                <Typography variant="h5">Podium for {props.event.name}</Typography>
-                <Typography variant="body1">1. {ranking.firstPlace.name} ({ranking.firstPlace.wcaId})</Typography>
-                <Typography variant="body1">2. {ranking.secondPlace.name} ({ranking.secondPlace.wcaId})</Typography>
-                <Typography variant="body1">3. {ranking.thirdPlace.name} ({ranking.thirdPlace.wcaId})</Typography>
+                <Typography variant="h5">The competition is over.</Typography>
+                {ranking.firstPlace && ranking.secondPlace && ranking.thirdPlace && (
+                    <>
+                        <Typography variant="h5">Podium for {props.event.name}</Typography>
+                        <Typography
+                            variant="body1">1. {ranking.firstPlace.name} ({ranking.firstPlace.wcaId})</Typography>
+                        <Typography
+                            variant="body1">2. {ranking.secondPlace.name} ({ranking.secondPlace.wcaId})</Typography>
+                        <Typography
+                            variant="body1">3. {ranking.thirdPlace.name} ({ranking.thirdPlace.wcaId})</Typography>
+
+                    </>
+                )}
             </Box>
         </>
     );

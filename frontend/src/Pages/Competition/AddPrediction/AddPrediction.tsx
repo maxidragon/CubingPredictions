@@ -1,10 +1,10 @@
 import {useEffect, useState} from "react";
 import {getCompetitorsForEvent, getFinalStartTime, isRegistrationClosed} from "../../../logic/competitions";
-import TooLateToAdd from "../../../Components/Predictions/TooLateToAdd/TooLateToAdd";
 import AddPredictionForm from "../../../Components/Predictions/AddPredictionForm/AddPredictionForm";
 import {getYourPrediction} from "../../../logic/predictions";
 import AlreadyPredicted from "../../../Components/Predictions/AlreadyPredicted/AlreadyPredicted";
 import {Box, CircularProgress, Typography} from "@mui/material";
+import TooLateToAdd from "../../../Components/Predictions/TooLateToAdd/TooLateToAdd";
 
 const AddPrediction = (props: any) => {
     const [competitors, setCompetitors] = useState<any>([]);
@@ -32,11 +32,12 @@ const AddPrediction = (props: any) => {
                 const prediction = {
                     firstPlace: competitors.find((c: any) => c.wcaId === yourPredictionData.firstPlaceWcaId),
                     secondPlace: competitors.find((c: any) => c.wcaId === yourPredictionData.secondPlaceWcaId),
-                    thirdPlace: competitors.find((c: any) => c.wcaId === yourPredictionData.thirdPlaceWcaId)
+                    thirdPlace: competitors.find((c: any) => c.wcaId === yourPredictionData.thirdPlaceWcaId),
+                    isChecked: yourPredictionData.isChecked,
+                    score: yourPredictionData.score,
                 };
                 setYourPrediction(prediction);
-            }
-            else {
+            } else {
                 setIsPredicted(false);
             }
             setIsLoading(false);
@@ -45,11 +46,21 @@ const AddPrediction = (props: any) => {
     }, [props.competition, props.event]);
     return (
         <>
-            {isLoading ? <Box sx={{display: 'flex', alignItems: 'center', justifyContent: 'center', textAlign: 'center'}}><CircularProgress  /></Box>: (
-            isAllowed ?
-                isRegistrationOpen ? <Typography variant="h6">You can add your prediction after registration closes.</Typography> :
-                (isPredicted ? <AlreadyPredicted competition={props.competition} event={props.event} competitors={competitors} yourPrediction={yourPrediction}/>: <AddPredictionForm competition={props.competition} event={props.event} competitors={competitors} yourPrediction={yourPrediction}/> ) : <TooLateToAdd />
-            )}
+            {isLoading ? <Box sx={{
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                textAlign: 'center'
+            }}><CircularProgress/></Box> : (
+                (isPredicted ?
+                    <AlreadyPredicted competition={props.competition} event={props.event}
+                                      competitors={competitors} yourPrediction={yourPrediction}/> : (
+                        isRegistrationOpen ? <Typography variant="h6">You can add your prediction after registration
+                            closes.</Typography> : (
+                            isAllowed ? <AddPredictionForm competition={props.competition} event={props.event}/> :
+                                <TooLateToAdd/>
+                        )
+                    )))}
         </>
     )
 };
