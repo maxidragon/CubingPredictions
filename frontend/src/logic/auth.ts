@@ -47,6 +47,15 @@ export const resetPassword = async (resetId: string, newPassword: string) => {
     return response.status;
 };
 
+export const getUserProfile = async (userId: number) => {
+    try {
+        const response = await fetch("http://localhost:5000/user/profile/" + userId);
+        return await response.json();
+    } catch (error) {
+        console.log(error);
+    }
+};
+
 export const isUserLoggedIn = () => {
     const user = getUser();
     return !!user && Object.keys(user).length > 0;

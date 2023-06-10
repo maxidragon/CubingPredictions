@@ -13,11 +13,16 @@ import Ranking from "./Pages/Predictions/Ranking/PodiumPredictionsRanking";
 import ForgotPassword from "./Pages/Auth/ForgotPassword/ForgotPassword";
 import ResetPassword from "./Pages/Auth/ResetPassword/ResetPassword";
 import ErrorElement from "./Pages/ErrorElement/ErrorElement";
+import Profile from "./Pages/Profile/Profile";
 
 const router = createHashRouter([
   {
       path: "*",
       element: <Layout children={<ErrorElement message={'404 not found'} />} />,
+  },
+  {
+    path: "/404",
+    element: <Layout children={<ErrorElement message={'404 not found'} />} />,
   },
   {
     path: "/auth/login",
@@ -54,7 +59,11 @@ const router = createHashRouter([
   {
     path: "/podium/ranking",
     element: <Layout children={<Ranking />} />,
-  }
+  },
+  {
+    path: "/profile/:userId",
+    element: <Layout children={<Profile />} />,
+  },
 ]);
 const lightTheme = createTheme({
   palette: {

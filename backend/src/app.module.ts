@@ -8,6 +8,7 @@ import { PredictionsModule } from './predictions/predictions.module';
 import { CompetitionsModule } from './competitions/competitions.module';
 import { RankingModule } from './ranking/ranking.module';
 import { ScheduleModule } from '@nestjs/schedule';
+import { UserModule } from './user/user.module';
 
 @Module({
   imports: [
@@ -32,6 +33,7 @@ import { ScheduleModule } from '@nestjs/schedule';
     CompetitionsModule,
     RankingModule,
     ScheduleModule.forRoot(),
+    UserModule,
   ],
   controllers: [AppController],
   providers: [AppService],

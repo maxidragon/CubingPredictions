@@ -8,6 +8,7 @@ import { JwtAuthDto } from '../auth/dto/jwt-auth.dto';
 @Controller('predictions')
 export class PredictionsController {
   constructor(private readonly predictionsService: PredictionsService) {}
+
   @UseGuards(AuthGuard('jwt'))
   @Post('podium/add')
   async addPodiumPrediction(
@@ -23,14 +24,25 @@ export class PredictionsController {
       dto.thirdPlaceWcaId,
     );
   }
+
   @Get('podium/ranking')
   async getPodiumPredictionsRanking() {
     return await this.predictionsService.getPodiumPredictionsRanking();
   }
-  @Get('user/podium/:userId')
-  async getAllPodiumPredictionsByUser(@Param('userId') userId: number) {
-    return await this.predictionsService.getAllPodiumPredictionsByUser(userId);
+
+  // @Get('user/podium/:userId')
+  // async getAllPodiumPredictionsByUser(@Param('userId') userId: number) {
+  //   return await this.predictionsService.getAllPodiumPredictionsByUser(userId);
+  // }
+
+  @UseGuards(AuthGuard('jwt'))
+  @Get('user/podium/my')
+  async getAllMyPodiumPredictions(@GetUser() user: JwtAuthDto) {
+    return await this.predictionsService.getAllPodiumPredictionsByUser(
+      user.userId,
+    );
   }
+
   @Get('podium/:competitionId/:eventId')
   async getAllPodiumPredictionsForEvent(
     @Param('competitionId') competitionId: string,
@@ -41,6 +53,7 @@ export class PredictionsController {
       eventId,
     );
   }
+
   @UseGuards(AuthGuard('jwt'))
   @Get('podium/my/:competitionId/:eventId/')
   async getMyPodiumPrediction(
