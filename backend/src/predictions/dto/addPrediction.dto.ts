@@ -3,6 +3,9 @@ import { IsString, Length } from 'class-validator';
 export class AddPredictionDto {
   @IsString()
   competitionId: string;
+
+  @IsString()
+  competitionName: string;
   @IsString()
   eventId: string;
 

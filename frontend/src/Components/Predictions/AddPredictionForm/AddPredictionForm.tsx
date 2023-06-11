@@ -18,7 +18,7 @@ const AddPredictionForm = (props: any) => {
         setThirdPlace(newValue);
     };
     const handleSubmit = async () => {
-        const message = await addPodiumPrediction(props.competition.id, props.event.id, firstPlace.wcaId, secondPlace.wcaId, thirdPlace.wcaId);
+        const message = await addPodiumPrediction(props.competition.id, props.competition.name, props.event.id, firstPlace.wcaId, secondPlace.wcaId, thirdPlace.wcaId);
         console.log(message);
         if (message.statusCode === 201) {
             enqueueSnackbar(message.message, {variant: "success"});

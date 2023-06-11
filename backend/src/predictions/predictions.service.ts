@@ -12,6 +12,7 @@ export class PredictionsService {
 
   async addPodiumPrediction(
     competitionId: string,
+    competitionName: string,
     eventId: string,
     userId: number,
     firstPlaceWcaId: string,
@@ -25,6 +26,19 @@ export class PredictionsService {
       )) > new Date()
     ) {
       try {
+        const compExist = await this.prisma.competition.findUnique({
+          where: {
+            id: competitionId,
+          },
+        });
+        if (!compExist) {
+          await this.prisma.competition.create({
+            data: {
+              id: competitionId,
+              name: competitionName,
+            },
+          });
+        }
         await this.prisma.podiumPrediction.create({
           data: {
             eventId,
@@ -94,23 +108,54 @@ export class PredictionsService {
     const predictions = await this.prisma.podiumPrediction.findMany({
       where: {
         authorId: userId,
+        isChecked: true,
       },
       select: {
-        competitionId: true,
         eventId: true,
         firstPlaceWcaId: true,
         secondPlaceWcaId: true,
         thirdPlaceWcaId: true,
         score: true,
+        competition: {
+          select: {
+            id: true,
+            name: true,
+          },
+        },
       },
       orderBy: {
         createdAt: 'desc',
       },
     });
-    return {
-      predictions,
-      score: predictions.reduce((acc, curr) => acc + curr.score, 0),
-    };
+
+    const result = predictions.reduce((acc, curr) => {
+      const existingCompetition = acc.find(
+        (item) => item.competitionId === curr.competition.id,
+      );
+
+      if (existingCompetition) {
+        existingCompetition.predictions.push({
+          event: curr.eventId,
+          score: curr.score,
+        });
+        existingCompetition.sumOfScore += curr.score;
+      } else {
+        acc.push({
+          competitionId: curr.competition.id,
+          competitionName: curr.competition.name,
+          predictions: [
+            {
+              event: curr.eventId,
+              score: curr.score,
+            },
+          ],
+          sumOfScore: curr.score,
+        });
+      }
+
+      return acc;
+    }, []);
+    return result;
   }
 
   async getAllPodiumPredictionsForEvent(

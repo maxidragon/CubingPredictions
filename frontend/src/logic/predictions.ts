@@ -1,7 +1,8 @@
-export const addPodiumPrediction = async (competitionId: string, eventId: string, firstPlaceWcaId: string, secondPlaceWcaId: string, thirdPlaceWcaId: string) => {
+export const addPodiumPrediction = async (competitionId: string, competitionName: string, eventId: string, firstPlaceWcaId: string, secondPlaceWcaId: string, thirdPlaceWcaId: string) => {
     if (checkPodiumPrediction(firstPlaceWcaId, secondPlaceWcaId, thirdPlaceWcaId)) {
         const prediction = {
             competitionId,
+            competitionName,
             eventId,
             firstPlaceWcaId,
             secondPlaceWcaId,
@@ -29,6 +30,19 @@ export const checkPodiumPrediction = (firstPlaceWcaId: string, secondPlaceWcaId:
 export const getYourPrediction = async (competitionId: string, eventId: string) => {
     try {
         const response = await fetch(`http://localhost:5000/predictions/podium/my/${competitionId}/${eventId}`, {
+            method: "GET",
+            credentials: "include",
+        });
+        return await response.json();
+    } catch (err) {
+        console.log(err);
+        return [];
+    }
+};
+
+export const getAllUserPredictions = async (userId: number) => {
+    try {
+        const response = await fetch(`http://localhost:5000/predictions/user/podium/${userId}`, {
             method: "GET",
             credentials: "include",
         });

@@ -53,23 +53,6 @@ const Main = () => {
                                         to="/podium/ranking">Ranking</Button>
                             </CardActions>
                         </Card>
-                        <Card sx={{maxWidth: 345, ml: 5}}>
-                            <CardMedia
-                                sx={{height: 140}}
-                                image=""
-                            />
-                            <CardContent>
-                                <Typography gutterBottom variant="h5" component="div">
-                                    Record predictions
-                                </Typography>
-                                <Typography variant="body2" color="text.secondary">
-                                    Soon
-                                </Typography>
-                            </CardContent>
-                            <CardActions>
-                                Soon
-                            </CardActions>
-                        </Card>
                     </Box>
 
                 </Container>

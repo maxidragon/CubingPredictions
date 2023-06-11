@@ -17,6 +17,7 @@ export class PredictionsController {
   ) {
     return await this.predictionsService.addPodiumPrediction(
       dto.competitionId,
+      dto.competitionName,
       dto.eventId,
       user.userId,
       dto.firstPlaceWcaId,
@@ -30,10 +31,10 @@ export class PredictionsController {
     return await this.predictionsService.getPodiumPredictionsRanking();
   }
 
-  // @Get('user/podium/:userId')
-  // async getAllPodiumPredictionsByUser(@Param('userId') userId: number) {
-  //   return await this.predictionsService.getAllPodiumPredictionsByUser(userId);
-  // }
+  @Get('user/podium/:userId')
+  async getAllPodiumPredictionsByUser(@Param('userId') userId: number) {
+    return await this.predictionsService.getAllPodiumPredictionsByUser(userId);
+  }
 
   @UseGuards(AuthGuard('jwt'))
   @Get('user/podium/my')
@@ -43,7 +44,7 @@ export class PredictionsController {
     );
   }
 
-  @Get('podium/:competitionId/:eventId')
+  @Get('podium/competition/:competitionId/:eventId')
   async getAllPodiumPredictionsForEvent(
     @Param('competitionId') competitionId: string,
     @Param('eventId') eventId: string,

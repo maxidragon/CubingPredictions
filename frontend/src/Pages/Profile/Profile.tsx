@@ -2,6 +2,7 @@ import {useEffect, useState} from "react";
 import {getUser, getUserProfile} from "../../logic/auth";
 import {Link as LinkComponent, useNavigate, useParams} from "react-router-dom";
 import {Box, CircularProgress, Link, Typography} from "@mui/material";
+import UserPodiumPredictions from "./UserPredictions/UserPodiumPredictions";
 
 const Profile = () => {
     const user = getUser();
@@ -51,10 +52,9 @@ const Profile = () => {
                                 Edit profile
                             </Link>
                         )}
+                        <UserPodiumPredictions userId={userId}/>
                     </>
-
                 )}
-
             </Box>
         </>
     )

@@ -19,18 +19,25 @@ model User {
 }
 
 model PodiumPrediction {
-  id               Int      @id @default(autoincrement())
-  createdAt        DateTime @default(now())
-  updatedAt        DateTime @updatedAt
-  author           User     @relation(fields: [authorId], references: [id])
+  id               Int          @id @default(autoincrement())
+  createdAt        DateTime     @default(now())
+  updatedAt        DateTime     @updatedAt
+  author           User         @relation(fields: [authorId], references: [id])
   authorId         Int
-  competitionId    String
+  competitionId    String?
+  competition      Competition? @relation(fields: [competitionId], references: [id])
   eventId          String
   firstPlaceWcaId  String
   secondPlaceWcaId String
   thirdPlaceWcaId  String
   score            Int
-  isChecked        Boolean  @default(false)
+  isChecked        Boolean      @default(false)
 
   @@unique([authorId, competitionId, eventId])
+}
+
+model Competition {
+  id               String             @id
+  name             String
+  PodiumPrediction PodiumPrediction[]
 }
