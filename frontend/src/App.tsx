@@ -14,6 +14,7 @@ import ForgotPassword from "./Pages/Auth/ForgotPassword/ForgotPassword";
 import ResetPassword from "./Pages/Auth/ResetPassword/ResetPassword";
 import ErrorElement from "./Pages/ErrorElement/ErrorElement";
 import Profile from "./Pages/Profile/Profile";
+import Settings from "./Pages/Settings/Settings";
 
 const router = createHashRouter([
   {
@@ -64,6 +65,10 @@ const router = createHashRouter([
     path: "/profile/:userId",
     element: <Layout children={<Profile />} />,
   },
+  {
+    path: "/settings",
+    element: <Layout children={<Settings />} />,
+  }
 ]);
 const lightTheme = createTheme({
   palette: {
