@@ -47,7 +47,7 @@ export const getPodiumForEvent = (competitionInfo: any, eventId: string) => {
     };
 };
 export const generateRanking = (persons: any, event: string, type: string) => {
-    const ranking: { name: string, wcaId: string, country: string, result: string, worldRank: number }[] = [];
+    const ranking: { name: string, wcaId: string, country: string, result: string, worldRank: number, notResult: boolean }[] = [];
     persons.forEach((person: any) => {
         if (person.registration && person.registration.eventIds.includes(event)) {
             person.personalBests.forEach((pb: any) => {
@@ -57,10 +57,21 @@ export const generateRanking = (persons: any, event: string, type: string) => {
                         wcaId: person.wcaId,
                         country: person.country,
                         result: resultToString(pb.best, event, type),
-                        worldRank: pb.worldRanking
+                        worldRank: pb.worldRanking,
+                        notResult: false,
                     });
                 }
             });
+            if (!(person.personalBests.some((pb: any) => pb.eventId === event && pb.type === type))) {
+                ranking.push({
+                    name: person.name,
+                    wcaId: person.wcaId,
+                    country: person.country,
+                    result: '',
+                    worldRank: 999999999999,
+                    notResult: true,
+                });
+            }
         }
     });
     ranking.sort((a, b) => {

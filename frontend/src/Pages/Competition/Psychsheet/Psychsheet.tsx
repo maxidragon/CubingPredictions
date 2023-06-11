@@ -45,15 +45,20 @@ const Psychsheet = (props: any) => {
                             {ranking.map((player: any, position: number) => (
                                 <TableRow key={player.id}>
                                     <TableCell>
-                                        {position + 1}
+                                        <TableCell>
+                                            {player.notResult ? '' : position + 1}
+                                        </TableCell>
                                     </TableCell>
                                     <TableCell>
-                                        <Link href={`https://worldcubeassociation.org/persons/${player.wcaId}`} underline="none" target="_blank">
+                                        <Link href={`https://worldcubeassociation.org/persons/${player.wcaId}`}
+                                              underline="none" target="_blank">
                                             {player.name}
                                         </Link>
                                     </TableCell>
                                     <TableCell>{player.result}</TableCell>
-                                    <TableCell>{player.worldRank}</TableCell>
+                                    <TableCell>
+                                        {player.notResult  ? '' : player.worldRank}
+                                    </TableCell>
                                 </TableRow>
                             ))}
                         </TableBody>

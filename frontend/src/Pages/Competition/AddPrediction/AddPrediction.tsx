@@ -25,6 +25,9 @@ const AddPrediction = (props: any) => {
                 setIsRegistrationOpen(false);
             }
             const competitors = await getCompetitorsForEvent(props.competition.persons, props.event.id);
+            console.log(competitors);
+            console.log(props.event.id);
+            competitors.filter(c => c.wcaId !== null);
             setCompetitors(competitors);
             const yourPredictionData = await getYourPrediction(props.competition.id, props.event.id);
             if (yourPredictionData.statusCode !== 404) {
@@ -57,7 +60,7 @@ const AddPrediction = (props: any) => {
                                       competitors={competitors} yourPrediction={yourPrediction}/> : (
                         isRegistrationOpen ? <Typography variant="h6">You can add your prediction after registration
                             closes.</Typography> : (
-                            isAllowed ? <AddPredictionForm competition={props.competition} event={props.event}/> :
+                            isAllowed ? <AddPredictionForm competition={props.competition} event={props.event} competitors={competitors}/> :
                                 <TooLateToAdd/>
                         )
                     )))}

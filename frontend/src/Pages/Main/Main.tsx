@@ -22,7 +22,7 @@ const Main = () => {
                         Cubing predictions
                     </Typography>
                     <Typography variant="h5" align="center" color="text.secondary" paragraph>
-                        Cubing predictions is a website for predicting results of WCA competitions. Check {' '}
+                        Website for predicting results of WCA competitions. Check {' '}
                         <Link
                             component={LinkComponent}
                             to="/about"
