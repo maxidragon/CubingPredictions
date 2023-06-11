@@ -1,4 +1,4 @@
-import { Controller, Get, Param, Put, UseGuards } from '@nestjs/common';
+import { Body, Controller, Get, Param, Put, UseGuards } from '@nestjs/common';
 import { UserService } from './user.service';
 import { AuthGuard } from '@nestjs/passport';
 import { GetUser } from '../auth/decorator/getUser.decorator';
@@ -17,9 +17,13 @@ export class UserController {
   async getSettings(@GetUser() user: JwtAuthDto) {
     return await this.userService.getSettings(user.userId);
   }
+
   @UseGuards(AuthGuard('jwt'))
   @Put('settings/')
-  async updateSettings(@GetUser() user: JwtAuthDto, body: UpdateSettingsDto) {
+  async updateSettings(
+    @Body() body: UpdateSettingsDto,
+    @GetUser() user: JwtAuthDto,
+  ) {
     return await this.userService.updateSettings(user.userId, body);
   }
 }

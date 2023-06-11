@@ -1,6 +1,7 @@
-import { IsEmail, IsString, Length } from 'class-validator';
+import { IsEmail, IsOptional, IsString, Length } from 'class-validator';
 
 export class UpdateSettingsDto {
+  @IsOptional()
   @IsString()
   @Length(10, 10)
   wcaId: string;

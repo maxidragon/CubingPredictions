@@ -1,9 +1,10 @@
 import {useEffect, useState} from "react";
-import {getUserProfile} from "../../logic/auth";
-import {useNavigate, useParams} from "react-router-dom";
-import {Box, CircularProgress, Typography} from "@mui/material";
+import {getUser, getUserProfile} from "../../logic/auth";
+import {Link as LinkComponent, useNavigate, useParams} from "react-router-dom";
+import {Box, CircularProgress, Link, Typography} from "@mui/material";
 
 const Profile = () => {
+    const user = getUser();
     const {userId} = useParams<{ userId: string }>();
     const navigate = useNavigate();
     const [profile, setProfile] = useState<any>(null);
@@ -25,7 +26,14 @@ const Profile = () => {
     return (
         <>
 
-            <Box sx={{display: 'flex', alignItems: 'center', textAlign: 'center', justifyContent: 'center', mt: 5}}>
+            <Box sx={{
+                display: 'flex',
+                alignItems: 'center',
+                textAlign: 'center',
+                justifyContent: 'center',
+                mt: 5,
+                flexDirection: 'column'
+            }}>
                 {isLoading ? (
                     <CircularProgress/>
                 ) : (
@@ -34,7 +42,17 @@ const Profile = () => {
                         {profile.wcaId && (
                             <Typography variant="h6">WCA ID: {profile.wcaId}</Typography>
                         )}
+                        {userId && +userId === user.id && (
+                            <Link
+                                component={LinkComponent}
+                                to="/settings"
+                                underline="hover"
+                            >
+                                Edit profile
+                            </Link>
+                        )}
                     </>
+
                 )}
 
             </Box>
