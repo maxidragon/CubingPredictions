@@ -13,32 +13,27 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import {createTheme, ThemeProvider} from '@mui/material/styles';
 import Copyright from './../../../Layout/Copyright';
+import {registerUser} from "../../../logic/auth";
+import {enqueueSnackbar} from "notistack";
 
 const theme = createTheme();
 
 export default function Register() {
     const navigate = useNavigate();
-    const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    const handleSubmit = async (event: any) => {
         event.preventDefault();
         const data = new FormData(event.currentTarget);
-        const register = JSON.stringify({
-            email: data.get('email'),
-            username: data.get('username'),
-            password: data.get('password'),
-        });
-        fetch("http://localhost:5000/auth/register", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: register,
-        })
-            .then((response) => response.text()).then(() => {
-            navigate("/auth/login");
-        })
-            .catch((error) => {
-                console.log("error", error);
-            });
+        if (data.get('email') && data.get('password') && data.get('username')) {
+            const message = await registerUser(data.get('email'), data.get('username'), data.get('password'));
+            if (message) {
+                const msg = JSON.parse(message).msg;
+                if (msg === "Successfully registered a new account!") {
+                    navigate("/auth/login");
+                } else {
+                    enqueueSnackbar('Something went wrong', {variant: "error"});
+                }
+            }
+        }
     };
 
     return (
@@ -143,7 +138,7 @@ export default function Register() {
                         </Box>
                     </Box>
                     <Grid item sx={{mt: 10}}>
-                        <Copyright />
+                        <Copyright/>
                     </Grid>
                 </Container>
             </Grid>

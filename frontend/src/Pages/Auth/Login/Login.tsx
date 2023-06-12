@@ -12,6 +12,8 @@ import Grid from '@mui/material/Grid';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Copyright from './../../../Layout/Copyright';
+import {login} from "../../../logic/auth";
+import {enqueueSnackbar} from "notistack";
 
 
 function Login() {
@@ -19,28 +21,17 @@ function Login() {
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         const data = new FormData(event.currentTarget);
-        let myHeaders = new Headers();
-        myHeaders.append("Content-Type", "application/json");
-        let raw = JSON.stringify({
-            email: data.get('email'),
-            password: data.get('password'),
-        });
-        fetch("http://localhost:5000/auth/login", {
-            method: "POST",
-            headers: myHeaders,
-            body: raw,
-            redirect: "follow",
-            credentials: "include",
-        })
-            .then((response) => response.text())
-            .then((data) => {
-                console.log(data);
+        if (data.get('email') && data.get('password')) {
+            const status = await login(data.get('email'), data.get('password'));
+            if (status === 200) {
                 navigate("/");
-            })
-            .catch((error) => {
-                console.log("error", error)
-            });
-    };
+            } else if (status === 403) {
+                enqueueSnackbar('Wrong email or password', {variant: "error"});
+            } else {
+                enqueueSnackbar('Something went wrong', {variant: "error"});
+            }
+        }
+    }
 
     return (
             <Grid container component="main" sx={{height: '100vh'}}>
