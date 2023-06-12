@@ -1,16 +1,16 @@
 {
   "files": {
     "main.css": "/CubingPredictions/static/css/main.c1733ed3.css",
-    "main.js": "/CubingPredictions/static/js/main.5c6f94d5.js",
+    "main.js": "/CubingPredictions/static/js/main.41bfd507.js",
     "static/js/787.cda612ba.chunk.js": "/CubingPredictions/static/js/787.cda612ba.chunk.js",
     "static/media/error.svg": "/CubingPredictions/static/media/error.3bf81a0c9cc06aaf18f6f6661cafc580.svg",
     "index.html": "/CubingPredictions/index.html",
     "main.c1733ed3.css.map": "/CubingPredictions/static/css/main.c1733ed3.css.map",
-    "main.5c6f94d5.js.map": "/CubingPredictions/static/js/main.5c6f94d5.js.map",
+    "main.41bfd507.js.map": "/CubingPredictions/static/js/main.41bfd507.js.map",
     "787.cda612ba.chunk.js.map": "/CubingPredictions/static/js/787.cda612ba.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.c1733ed3.css",
-    "static/js/main.5c6f94d5.js"
+    "static/js/main.41bfd507.js"
   ]
 }
