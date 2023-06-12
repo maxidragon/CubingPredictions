@@ -22,14 +22,6 @@ jobs:
         run: npm install
         working-directory: ./frontend
 
-      - name: Replace URL
-        run: |
-          sed -i 's|http://localhost:5000|https://predictions.maksymiliangala.com|g' frontend/src/logic/auth.ts
-          sed -i 's|http://localhost:5000|https://predictions.maksymiliangala.com|g' frontend/src/logic/competitions.ts
-          sed -i 's|http://localhost:5000|https://predictions.maksymiliangala.com|g' frontend/src/logic/predictions.ts
-          sed -i 's|http://localhost:5000|https://predictions.maksymiliangala.com|g' frontend/src/logic/ranking.ts
-          sed -i 's|http://localhost:5000|https://predictions.maksymiliangala.com|g' frontend/src/logic/settings.ts
-
       - name: Build
         run: npm run build
         working-directory: ./frontend
