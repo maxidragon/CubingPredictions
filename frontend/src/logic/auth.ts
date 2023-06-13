@@ -34,6 +34,11 @@ export const login = async (email: FormDataEntryValue | null, password: FormData
             credentials: "include",
             body: JSON.stringify({email: email, password: password}),
         });
+        if (response.status === 200) {
+            const data = await response.json();
+            Cookies.set("jwt", data.token);
+            Cookies.set("user_info", JSON.stringify(data.info));
+        }
         return response.status;
     } catch (error) {
         console.log(error);
