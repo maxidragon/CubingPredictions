@@ -16,15 +16,17 @@ async function bootstrap() {
   );
   app.use(cookieParser());
   app.enableCors({
-    origin: true,
+    origin: ['https://maxidragon.github.io', 'http://localhost:3000'],
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH'],
     allowedHeaders: [
-      'X-Requested-With,Content-Type',
+      'X-Requested-With',
+      'Content-Type',
       'Access-Control-Allow-Credentials',
       'Origin',
     ],
     credentials: true,
   });
+
   await app.listen(process.env.PORT || 5000);
 }
 
