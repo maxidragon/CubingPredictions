@@ -15,17 +15,7 @@ async function bootstrap() {
     }),
   );
   app.use(cookieParser());
-  app.enableCors({
-    origin: true,
-    methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH'],
-    allowedHeaders: [
-      'X-Requested-With,Content-Type',
-      'Access-Control-Allow-Origin',
-      'Access-Control-Allow-Credentials',
-      'Origin',
-    ],
-    credentials: true,
-  });
+  app.enableCors();
   await app.listen(process.env.PORT || 5000);
 }
 
