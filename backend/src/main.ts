@@ -5,6 +5,7 @@ import * as dotenv from 'dotenv';
 import { ValidationPipe } from '@nestjs/common';
 
 dotenv.config();
+
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   app.useGlobalPipes(
@@ -21,6 +22,7 @@ async function bootstrap() {
     allowedHeaders: [
       'X-Requested-With',
       'Content-Type',
+      'Access-Control-Allow-Origin',
       'Access-Control-Allow-Credentials',
       'Origin',
     ],
