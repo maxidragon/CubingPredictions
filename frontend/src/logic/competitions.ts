@@ -1,8 +1,9 @@
 import {resultToString} from './results';
+import {backendRequest} from "./request";
 
 export const getUpcomingCompetitions = async () => {
     try {
-        const response = await fetch('http://localhost:5000/competitions/upcoming');
+        const response = await backendRequest('competitions/upcoming', 'GET', false);
         return await response.json();
     } catch (err) {
         console.log(err);
@@ -12,7 +13,7 @@ export const getUpcomingCompetitions = async () => {
 
 export const getCompetitionInfo = async (id: string) => {
     try {
-        const response = await fetch(`http://localhost:5000/competitions/info/${id}`);
+        const response = await backendRequest(`competitions/info/${id}`, 'GET', false);
         return await response.json();
     } catch (err) {
         console.log(err);
@@ -23,7 +24,6 @@ export const getPodiumForEvent = (competitionInfo: any, eventId: string) => {
     const eventInfo = competitionInfo.events.find(
         (event: any) => event.id === eventId,
     );
-    console.log(eventInfo);
     const roundsCount = eventInfo.rounds.length;
     const round = eventInfo.rounds.find(
         (round: any) => round.id === `${eventId}-r${roundsCount}`,
@@ -46,6 +46,7 @@ export const getPodiumForEvent = (competitionInfo: any, eventId: string) => {
         thirdPlace: thirdPlaceWcaId,
     };
 };
+
 export const generateRanking = (persons: any, event: string, type: string) => {
     const ranking: { name: string, wcaId: string, country: string, result: string, worldRank: number, notResult: boolean }[] = [];
     persons.forEach((person: any) => {
@@ -82,7 +83,7 @@ export const generateRanking = (persons: any, event: string, type: string) => {
 
 export const getFinalStartTime = async (id: string, event: string) => {
     try {
-        const response = await fetch(`http://localhost:5000/competitions/${id}/final/${event}`);
+        const response = await backendRequest(`competitions/${id}/final/${event}`, 'GET', false);
         return await response.json();
     } catch (err) {
         console.log(err);
@@ -108,7 +109,7 @@ export const getCompetitorsForEvent = async (competitors: any, event: string) =>
 
 export const searchCompetitions = async (name: string) => {
     try {
-        const response = await fetch(`http://localhost:5000/competitions/search?query=${name}`);
+        const response = await backendRequest(`competitions/search?query=${name}`, 'GET', false);
         return await response.json();
     } catch (err) {
         console.log(err);
@@ -118,7 +119,7 @@ export const searchCompetitions = async (name: string) => {
 
 export const getRegistrationData = async (id: string) => {
     try {
-        const response = await fetch(`http://localhost:5000/competitions/registration/${id}`);
+        const response = await backendRequest(`competitions/registration/${id}`, 'GET', false);
         return await response.json();
     } catch (err) {
         console.log(err);

@@ -22,9 +22,8 @@ async function bootstrap() {
     allowedHeaders: [
       'X-Requested-With',
       'Content-Type',
-      'Access-Control-Allow-Origin',
-      'Access-Control-Allow-Credentials',
       'Origin',
+      'Authorization',
     ],
     credentials: true,
   });

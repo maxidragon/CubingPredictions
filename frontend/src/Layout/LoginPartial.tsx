@@ -3,12 +3,12 @@ import LoginIcon from '@mui/icons-material/Login';
 import LogoutIcon from '@mui/icons-material/Logout';
 import {IconButton, Typography} from "@mui/material";
 import {Link} from "react-router-dom";
-import {getUser, logout} from "../logic/auth";
+import {getUserInfo, logout} from "../logic/auth";
 import PersonIcon from '@mui/icons-material/Person';
 
 const LoginPartial = () => {
     const [isMobile, setIsMobile] = useState<boolean>(false);
-    const user = getUser();
+    const user = getUserInfo();
     useEffect(() => {
         function handleResize() {
             if (window.innerWidth <= 800) {
@@ -29,7 +29,7 @@ const LoginPartial = () => {
 
     return (
         <>
-            {user.id ? (<>
+            {user && user.id ? (<>
                     {isMobile ? null : (
                     <Typography>Hello {user.username}</Typography>
                         )}

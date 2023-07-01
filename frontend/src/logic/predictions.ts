@@ -1,3 +1,5 @@
+import { backendRequest } from "./request";
+
 export const addPodiumPrediction = async (competitionId: string, competitionName: string, eventId: string, firstPlaceWcaId: string, secondPlaceWcaId: string, thirdPlaceWcaId: string) => {
     if (checkPodiumPrediction(firstPlaceWcaId, secondPlaceWcaId, thirdPlaceWcaId)) {
         const prediction = {
@@ -8,15 +10,7 @@ export const addPodiumPrediction = async (competitionId: string, competitionName
             secondPlaceWcaId,
             thirdPlaceWcaId,
         };
-        const response = await fetch("http://localhost:5000/predictions/podium/add", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify(prediction),
-            redirect: "follow",
-            credentials: "include",
-        });
+        const response = await backendRequest('predictions/podium/add', 'POST', true, prediction);
         const data = await response.json();
         return { message: data.message, statusCode: response.status };
     }
@@ -29,10 +23,7 @@ export const checkPodiumPrediction = (firstPlaceWcaId: string, secondPlaceWcaId:
 
 export const getYourPrediction = async (competitionId: string, eventId: string) => {
     try {
-        const response = await fetch(`http://localhost:5000/predictions/podium/my/${competitionId}/${eventId}`, {
-            method: "GET",
-            credentials: "include",
-        });
+        const response = await backendRequest(`predictions/podium/my/${competitionId}/${eventId}`, "GET", true);
         return await response.json();
     } catch (err) {
         console.log(err);
@@ -42,10 +33,7 @@ export const getYourPrediction = async (competitionId: string, eventId: string) 
 
 export const getAllUserPredictions = async (userId: number) => {
     try {
-        const response = await fetch(`http://localhost:5000/predictions/user/podium/${userId}`, {
-            method: "GET",
-            credentials: "include",
-        });
+        const response = await backendRequest(`predictions/user/podium/${userId}`, "GET", true);
         return await response.json();
     } catch (err) {
         console.log(err);

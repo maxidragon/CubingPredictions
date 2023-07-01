@@ -1,6 +1,8 @@
+import { backendRequest } from "./request";
+
 export const getPodiumPredictionsRanking = async () => {
     try {
-        const response = await fetch('http://localhost:5000/ranking/podium');
+        const response = await backendRequest('ranking/podium', 'GET', true);
         return await response.json();
     } catch (err) {
         console.log(err);
