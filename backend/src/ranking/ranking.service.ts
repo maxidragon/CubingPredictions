@@ -25,6 +25,7 @@ export class RankingService {
       },
     });
     users.map((user) => {
+      if (!sumOfScore.find((score) => score.authorId === user.id)) return;
       const userScore = {
         score: sumOfScore.find((score) => score.authorId === user.id)._sum
           .score,

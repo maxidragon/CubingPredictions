@@ -14,12 +14,11 @@ const CompetitionEvent = (props: any) => {
             const startDate = new Date(props.competition.schedule.startDate);
             const endDate = new Date(startDate);
             endDate.setDate(startDate.getDate() + props.competition.schedule.numberOfDays);
-            if (now > endDate) {
+            if (now.getTime() > endDate.getTime()) {
                 setIsEnded(true);
             }
         }
-
-    }, [props.competition]);
+    }, [props.competition, isEnded]);
 
     return (
         <>

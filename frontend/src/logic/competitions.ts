@@ -1,5 +1,6 @@
-import {resultToString} from './results';
-import {backendRequest} from "./request";
+import { resultToString } from './results';
+import { backendRequest } from "./request";
+import { Person, Round, Event as EventInterface, PersonalBest } from '@wca/helpers';
 
 export const getUpcomingCompetitions = async () => {
     try {
@@ -21,33 +22,37 @@ export const getCompetitionInfo = async (id: string) => {
     }
 };
 export const getPodiumForEvent = (competitionInfo: any, eventId: string) => {
-    const eventInfo = competitionInfo.events.find(
-        (event: any) => event.id === eventId,
-    );
-    const roundsCount = eventInfo.rounds.length;
-    const round = eventInfo.rounds.find(
-        (round: any) => round.id === `${eventId}-r${roundsCount}`,
-    );
-    const firstPlace = round.results.find((result: any) => result.ranking === 1);
-    const secondPlace = round.results.find((result: any) => result.ranking === 2);
-    const thirdPlace = round.results.find((result: any) => result.ranking === 3);
-    const firstPlaceWcaId = competitionInfo.persons.find(
-        (person: any) => person.registrantId === firstPlace.personId,
-    );
-    const secondPlaceWcaId = competitionInfo.persons.find(
-        (person: any) => person.registrantId === secondPlace.personId,
-    );
-    const thirdPlaceWcaId = competitionInfo.persons.find(
-        (person: any) => person.registrantId === thirdPlace.personId,
-    );
-    return {
-        firstPlace: firstPlaceWcaId,
-        secondPlace: secondPlaceWcaId,
-        thirdPlace: thirdPlaceWcaId,
-    };
+    if (competitionInfo.events) {
+        const eventInfo = competitionInfo.events.find(
+            (event: EventInterface) => event.id === eventId,
+        );
+        if (eventInfo.results) {
+            const roundsCount = eventInfo.rounds.length;
+            const round = eventInfo.rounds.find(
+                (round: Round) => round.id === `${eventId}-r${roundsCount}`,
+            );
+            const firstPlace = round.results.find((result: any) => result.ranking === 1);
+            const secondPlace = round.results.find((result: any) => result.ranking === 2);
+            const thirdPlace = round.results.find((result: any) => result.ranking === 3);
+            const firstPlaceWcaId = competitionInfo.persons.find(
+                (person: Person) => person.registrantId === firstPlace.personId,
+            );
+            const secondPlaceWcaId = competitionInfo.persons.find(
+                (person: Person) => person.registrantId === secondPlace.personId,
+            );
+            const thirdPlaceWcaId = competitionInfo.persons.find(
+                (person: Person) => person.registrantId === thirdPlace.personId,
+            );
+            return {
+                firstPlace: firstPlaceWcaId,
+                secondPlace: secondPlaceWcaId,
+                thirdPlace: thirdPlaceWcaId,
+            };
+        }
+    }
 };
 
-export const generateRanking = (persons: any, event: string, type: string) => {
+export const generateRanking = (persons: Person[], event: string, type: string) => {
     const ranking: { name: string, wcaId: string, country: string, result: string, worldRank: number, notResult: boolean }[] = [];
     persons.forEach((person: any) => {
         if (person.registration && person.registration.eventIds.includes(event)) {
@@ -63,7 +68,7 @@ export const generateRanking = (persons: any, event: string, type: string) => {
                     });
                 }
             });
-            if (!(person.personalBests.some((pb: any) => pb.eventId === event && pb.type === type))) {
+            if (!(person.personalBests.some((pb: PersonalBest) => pb.eventId === event && pb.type === type))) {
                 ranking.push({
                     name: person.name,
                     wcaId: person.wcaId,
@@ -91,7 +96,7 @@ export const getFinalStartTime = async (id: string, event: string) => {
     }
 };
 
-export const getCompetitorsForEvent = async (competitors: any, event: string) => {
+export const getCompetitorsForEvent = async (competitors: Person[], event: string) => {
     const competitorsForEvent: any[] = [];
     if (competitors) {
         competitors.forEach((competitor: any) => {

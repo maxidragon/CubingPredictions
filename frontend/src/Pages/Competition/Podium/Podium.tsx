@@ -6,6 +6,7 @@ const Podium = (props: any) => {
     const [ranking, setRanking] = useState<any>([]);
     useEffect(() => {
         const generateRankingData = () => {
+            console.log(props.competition, props.event);
             if (props.competition.persons) {
                 const generatedRanking = getPodiumForEvent(props.competition, props.event.id);
                 console.log(generatedRanking);
@@ -17,8 +18,8 @@ const Podium = (props: any) => {
     return (
         <>
             <Box sx={{mb: 5, mt: 2}}>
-                <Typography variant="h5">The competition is over.</Typography>
-                {ranking.firstPlace && ranking.secondPlace && ranking.thirdPlace && (
+                <Typography variant="h5">Competition is over.</Typography>
+                {ranking && ranking.firstPlace && ranking.secondPlace && ranking.thirdPlace && (
                     <>
                         <Typography variant="h5">Podium for {props.event.name}</Typography>
                         <Typography

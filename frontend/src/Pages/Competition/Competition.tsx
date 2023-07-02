@@ -16,8 +16,10 @@ const Competition = (props: any) => {
             if (competitionId) {
                 const info = await getCompetitionInfo(competitionId);
                 console.log(info);
-                setCompetition(info);
-                setEvent(events.find(e => e.id === info.events[0].id));
+                if (info) {
+                    setCompetition(info);
+                    setEvent(events.find(e => e.id === info.events[0].id));    
+                }
             }
         };
         fetchData();

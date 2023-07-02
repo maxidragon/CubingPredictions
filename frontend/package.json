@@ -17,6 +17,7 @@
     "@types/node": "^16.18.34",
     "@types/react": "^18.2.7",
     "@types/react-dom": "^18.2.4",
+    "@wca/helpers": "^1.1.5",
     "js-cookie": "^3.0.5",
     "notistack": "^3.0.1",
     "react": "^18.2.0",

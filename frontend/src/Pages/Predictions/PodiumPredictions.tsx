@@ -65,7 +65,7 @@ const PodiumPredictions = () => {
                                     <ListItemButton
                                         key={competition.id}
                                         component={Link}
-                                        to={`/competitions/${competition.id}`}
+                                        to={competition.id !== 'WC1982' ? `/competitions/${competition.id}` : '/podium'}
                                     >
                                         <ListItemIcon>
                                             <ListItemIcon sx={{p: 2}}>
