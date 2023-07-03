@@ -1,8 +1,6 @@
 ## Cubing Predictions
 
-## Introduction
-
-Welcome to the Cubing predictions repository! Here you can find all the source code of this app. 
+Cubing predictions is a website for predicting results of speedcubing competitions. Here you can find all the source code of this app. 
 
 ## Design
 
