@@ -1,8 +1,8 @@
 import Psychsheet from "../Psychsheet/Psychsheet";
-import {isUserLoggedIn} from "../../../logic/auth";
+import { isUserLoggedIn } from "../../../logic/auth";
 import AddPrediction from "../AddPrediction/AddPrediction";
-import {Typography} from "@mui/material";
-import {useEffect, useState} from "react";
+import { Typography } from "@mui/material";
+import { useEffect, useState } from "react";
 import Podium from "../Podium/Podium";
 
 const CompetitionEvent = (props: any) => {
@@ -23,7 +23,9 @@ const CompetitionEvent = (props: any) => {
     return (
         <>
             {isUserLoggedIn() ? <AddPrediction competition={props.competition} event={props.event} /> : <Typography>Log in to predict results!</Typography>}
-            {isEnded ? <Podium competition={props.competition} event={props.event} /> : <Psychsheet competition={props.competition} event={props.event.id} type={'average'} key={props.event.id} />}
+            {isEnded ? <Podium competition={props.competition} event={props.event} /> :
+                <Psychsheet competition={props.competition} event={props.event.id} type={'average'} />
+            }
         </>
     )
 };

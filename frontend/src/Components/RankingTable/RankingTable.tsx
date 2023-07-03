@@ -16,7 +16,7 @@ const RankingTable = (props: any) => {
                     </TableHead>
                     <TableBody>
                         {props.persons.map((person: any, position: number) => (
-                            <TableRow key={person.id}>
+                           <TableRow key={person.id}>
                                 <TableCell>
                                     {position+1}
                                 </TableCell>

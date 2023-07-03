@@ -4,7 +4,7 @@ import {useParams} from "react-router-dom";
 import events from './../../logic/events';
 import CompetitionEvent from './CompetitionEvent/CompetitionEvent';
 import EventSelect from "../../Components/EventSelect/EventSelect";
-import {Box, Typography} from "@mui/material";
+import {Box, CircularProgress, Typography} from "@mui/material";
 
 const Competition = (props: any) => {
     const {competitionId} = useParams<{ competitionId: string }>();
@@ -15,10 +15,9 @@ const Competition = (props: any) => {
         const fetchData = async () => {
             if (competitionId) {
                 const info = await getCompetitionInfo(competitionId);
-                console.log(info);
                 if (info) {
                     setCompetition(info);
-                    setEvent(events.find(e => e.id === info.events[0].id));    
+                    setEvent(events.find(e => e.id === info.events[0].id));
                 }
             }
         };
@@ -38,12 +37,11 @@ const Competition = (props: any) => {
                 justifyContent: 'center !important',
                 alignItems: 'center !important',
                 textAlign: 'center !important',
-                margin: 'auto',
                 mt: 3
             }}>
                 <Typography variant="h4">{competition.name}</Typography>
                 <EventSelect selectedEvent={event} events={competition.events} eventChange={handleEventChange}/>
-                {competition.id && <CompetitionEvent competition={competition} event={event}/>}
+                {competition.id ? <CompetitionEvent competition={competition} event={event}/>: <CircularProgress />}
             </Box>
         </>
     )

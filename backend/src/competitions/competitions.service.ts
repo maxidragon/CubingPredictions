@@ -59,10 +59,17 @@ export class CompetitionsService {
     venues.map((venue) => {
       venue.rooms.map((room) => {
         room.activities.map((activity) => {
+          if (eventId !== '333mbf' && eventId !== '333fm') {
           if (activity.activityCode === `${eventId}-r${roundsCount}`) {
             finalEndTime = new Date(activity.endTime);
             return activity.endTime;
           }
+        } else {
+          if (activity.activityCode === `${eventId}-r${roundsCount}-a1`) {
+            finalEndTime = new Date(activity.endTime);
+            return activity.endTime;
+          }
+        }
         });
       });
     });
