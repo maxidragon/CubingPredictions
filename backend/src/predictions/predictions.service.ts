@@ -280,18 +280,39 @@ export class PredictionsService {
       const firstPlace = round.results.find((result) => result.ranking === 1);
       const secondPlace = round.results.find((result) => result.ranking === 2);
       const thirdPlace = round.results.find((result) => result.ranking === 3);
-      const firstPlaceWcaId = competitionInfo.persons.find(
-        (person) => person.registrantId === firstPlace.personId,
-      ).wcaId;
-      const secondPlaceWcaId = competitionInfo.persons.find(
-        (person) => person.registrantId === secondPlace.personId,
-      ).wcaId;
-      const thirdPlaceWcaId = competitionInfo.persons.find(
-        (person) => person.registrantId === thirdPlace.personId,
-      ).wcaId;
-      const isNoneFirstPlace = !(firstPlace.attempts.some(result => result.best !== -1 && result.best !== -2));
-      const isNoneSecondPlace = !(secondPlace.attempts.some(result => result.best !== -1 && result.best !== -2));
-      const isNoneThirdPlace = !(thirdPlace.attempts.some(result => result.best !== -1 && result.best !== -2));
+      let isNoneFirstPlace = false;
+      let isNoneSecondPlace = false;
+      let isNoneThirdPlace = false;
+      let firstPlaceWcaId = '';
+      let secondPlaceWcaId = '';
+      let thirdPlaceWcaId = '';
+        if (!firstPlace) {
+          isNoneFirstPlace = true;
+        } else {
+          firstPlaceWcaId = competitionInfo.persons.find(
+            (person) => person.registrantId === firstPlace.personId,
+          ).wcaId;
+          isNoneFirstPlace = !(firstPlace.attempts.some(result => result.best !== -1 && result.best !== -2));
+        }
+        if (!secondPlace) {
+          isNoneSecondPlace = true;
+        } else {
+          secondPlaceWcaId = competitionInfo.persons.find(
+            (person) => person.registrantId === secondPlace.personId,
+          ).wcaId;
+          isNoneSecondPlace = !(secondPlace.attempts.some(result => result.best !== -1 && result.best !== -2));
+        }
+        if (!thirdPlace) {
+          isNoneThirdPlace = true;
+        } else {
+          thirdPlaceWcaId = competitionInfo.persons.find(
+            (person) => person.registrantId === thirdPlace.personId,
+          ).wcaId;
+          isNoneThirdPlace = !(thirdPlace.attempts.some(result => result.best !== -1 && result.best !== -2));
+        }
+
+     
+     
       this.checkPodiumPredictionsForEvent(
         competitionId,
         eventId,
