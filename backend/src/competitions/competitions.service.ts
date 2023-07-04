@@ -158,8 +158,10 @@ export class CompetitionsService {
         start,
       },
     });
-    return response.data;
+    const competitions = response.data.filter((competition) => new Date(competition.start_date).getFullYear() >= 2023);
+    return competitions;
   }
+  
 
   async getRegistrationInfo(id: string) {
     const compData = await this.getBasicInfo(id);
