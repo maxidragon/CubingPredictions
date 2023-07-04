@@ -34,13 +34,13 @@ const AddPrediction = (props: any) => {
                 const prediction = {
                     firstPlace: competitors.find(
                         (c: any) => c.wcaId === yourPredictionData.firstPlaceWcaId
-                    ),
+                    ) || { name: 'No one', wcaUserId: 0, wcaId: '' },
                     secondPlace: competitors.find(
                         (c: any) => c.wcaId === yourPredictionData.secondPlaceWcaId
-                    ),
+                    ) || { name: 'No one', wcaUserId: 0, wcaId: '' },
                     thirdPlace: competitors.find(
                         (c: any) => c.wcaId === yourPredictionData.thirdPlaceWcaId
-                    ),
+                    ) || { name: 'No one', wcaUserId: 0, wcaId: '' },
                     isChecked: yourPredictionData.isChecked,
                     score: yourPredictionData.score,
                 };

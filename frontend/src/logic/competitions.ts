@@ -105,10 +105,14 @@ export const getCompetitorsForEvent = async (competitors: Person[], event: strin
                     name: competitor.name,
                     wcaId: competitor.wcaId,
                     wcaUserId: competitor.wcaUserId,
+                    worldRank: competitor.personalBests.find((pb: PersonalBest) => pb.eventId === event && pb.type === 'average')?.worldRanking,
                 })
             }
         });
     }
+    competitorsForEvent.sort((a, b) => {
+        return a.worldRank - b.worldRank;
+    });
     return competitorsForEvent;
 };
 

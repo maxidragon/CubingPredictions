@@ -18,24 +18,30 @@ export const addPodiumPrediction = async (competitionId: string, competitionName
 };
 
 export const checkPodiumPrediction = (firstPlaceWcaId: string, secondPlaceWcaId: string, thirdPlaceWcaId: string) => {
+    console.log(firstPlaceWcaId, secondPlaceWcaId, thirdPlaceWcaId);
     if (firstPlaceWcaId === 'NONE' || secondPlaceWcaId === 'NONE' || thirdPlaceWcaId === 'NONE') {
+
         if (firstPlaceWcaId === 'NONE' && secondPlaceWcaId === 'NONE' && thirdPlaceWcaId === 'NONE') {
             return true;
         } else {
+
             if (firstPlaceWcaId === 'NONE') {
                 if (secondPlaceWcaId === thirdPlaceWcaId) {
                     return false;
-                }
+                } 
+                return true;
             }
             if (secondPlaceWcaId === 'NONE') {
                 if (firstPlaceWcaId === thirdPlaceWcaId) {
                     return false;
                 }
+                return true;
             }
             if (thirdPlaceWcaId === 'NONE') {
                 if (firstPlaceWcaId === secondPlaceWcaId) {
                     return false;
                 }
+                return true;
             }
         }
     } else {
