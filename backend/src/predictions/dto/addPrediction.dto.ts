@@ -10,14 +10,14 @@ export class AddPredictionDto {
   eventId: string;
 
   @IsString()
-  @Length(10, 10)
+  @Length(4, 10)
   firstPlaceWcaId: string;
 
   @IsString()
-  @Length(10, 10)
+  @Length(4, 10)
   secondPlaceWcaId: string;
 
   @IsString()
-  @Length(10, 10)
+  @Length(4, 10)
   thirdPlaceWcaId: string;
 }

@@ -1,13 +1,19 @@
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import {Autocomplete, Box, Button, TextField, Typography} from "@mui/material";
 import {addPodiumPrediction} from "../../../logic/predictions";
 import {enqueueSnackbar} from "notistack";
 
 const AddPredictionForm = (props: any) => {
+    const [allowedOptions, setAllowedOptions] = useState<any>([]);
     const [firstPlace, setFirstPlace] = useState<any>(null);
     const [secondPlace, setSecondPlace] = useState<any>(null);
     const [thirdPlace, setThirdPlace] = useState<any>(null);
-
+    useEffect(() => {
+        const options = props.competitors;
+        options.push({name: "No one", wcaId: 'NONE'});
+        setAllowedOptions(options);
+        console.log(options);
+    }, [props.competitors]);
     const handleFirstPlaceChange = (event: any, newValue: any) => {
         setFirstPlace(newValue);
     };

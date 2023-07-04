@@ -18,7 +18,29 @@ export const addPodiumPrediction = async (competitionId: string, competitionName
 };
 
 export const checkPodiumPrediction = (firstPlaceWcaId: string, secondPlaceWcaId: string, thirdPlaceWcaId: string) => {
-    return !(firstPlaceWcaId === secondPlaceWcaId || firstPlaceWcaId === thirdPlaceWcaId || secondPlaceWcaId === thirdPlaceWcaId);
+    if (firstPlaceWcaId === 'NONE' || secondPlaceWcaId === 'NONE' || thirdPlaceWcaId === 'NONE') {
+        if (firstPlaceWcaId === 'NONE' && secondPlaceWcaId === 'NONE' && thirdPlaceWcaId === 'NONE') {
+            return true;
+        } else {
+            if (firstPlaceWcaId === 'NONE') {
+                if (secondPlaceWcaId === thirdPlaceWcaId) {
+                    return false;
+                }
+            }
+            if (secondPlaceWcaId === 'NONE') {
+                if (firstPlaceWcaId === thirdPlaceWcaId) {
+                    return false;
+                }
+            }
+            if (thirdPlaceWcaId === 'NONE') {
+                if (firstPlaceWcaId === secondPlaceWcaId) {
+                    return false;
+                }
+            }
+        }
+    } else {
+        return !(firstPlaceWcaId === secondPlaceWcaId || firstPlaceWcaId === thirdPlaceWcaId || secondPlaceWcaId === thirdPlaceWcaId);
+    }
 };
 
 export const getYourPrediction = async (competitionId: string, eventId: string) => {

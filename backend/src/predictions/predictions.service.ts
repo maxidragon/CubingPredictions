@@ -289,12 +289,18 @@ export class PredictionsService {
       const thirdPlaceWcaId = competitionInfo.persons.find(
         (person) => person.registrantId === thirdPlace.personId,
       ).wcaId;
+      const isNoneFirstPlace = !(firstPlace.attempts.some(result => result.best !== -1 && result.best !== -2));
+      const isNoneSecondPlace = !(secondPlace.attempts.some(result => result.best !== -1 && result.best !== -2));
+      const isNoneThirdPlace = !(thirdPlace.attempts.some(result => result.best !== -1 && result.best !== -2));
       this.checkPodiumPredictionsForEvent(
         competitionId,
         eventId,
         firstPlaceWcaId,
         secondPlaceWcaId,
         thirdPlaceWcaId,
+        isNoneFirstPlace,
+        isNoneSecondPlace,
+        isNoneThirdPlace,
       );
     });
     return true;
@@ -305,6 +311,9 @@ export class PredictionsService {
     firstPlaceWcaId: string,
     secondPlaceWcaId: string,
     thirdPlaceWcaId: string,
+    isNoneFirstPlace?: boolean,
+    isNoneSecondPlace?: boolean,
+    isNoneThirdPlace?: boolean,
   ) {
     const podiumPredictions = await this.prisma.podiumPrediction.findMany({
       where: {
@@ -312,7 +321,15 @@ export class PredictionsService {
         eventId,
       },
     });
-
+    if (isNoneFirstPlace) {
+      firstPlaceWcaId = 'NONE';
+    }
+    if (isNoneSecondPlace) {
+      secondPlaceWcaId = 'NONE';
+    } 
+    if (isNoneThirdPlace) {
+      thirdPlaceWcaId = 'NONE';
+    }
     for (const prediction of podiumPredictions) {
       const {
         firstPlaceWcaId: dbFirstPlace,
@@ -320,7 +337,6 @@ export class PredictionsService {
         thirdPlaceWcaId: dbThirdPlace,
       } = prediction;
       let score = 0;
-
       if (
         firstPlaceWcaId === dbFirstPlace &&
         secondPlaceWcaId === dbSecondPlace &&
