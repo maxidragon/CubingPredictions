@@ -25,6 +25,13 @@ const Psychsheet = (props: any) => {
         };
         generateRankingData();
     }, [props.competition.persons, type, props.event]);
+    useEffect(() => {
+        if (props.event === "333bf" || props.event === "444bf" || props.event === "555bf" || props.event === "333mbf") {
+            setType('single');
+        } else {
+            setType('average');
+        }
+    }, [props.event]);
     return (
         <>
             <Typography variant="h5">Psychsheet</Typography>
