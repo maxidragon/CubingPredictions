@@ -277,6 +277,9 @@ export class PredictionsService {
       const round = eventInfo.rounds.find(
         (round) => round.id === `${eventId}-r${roundsCount}`,
       );
+      if (round.results.length === 0) {
+        return;
+      }
       const firstPlace = round.results.find((result) => result.ranking === 1);
       const secondPlace = round.results.find((result) => result.ranking === 2);
       const thirdPlace = round.results.find((result) => result.ranking === 3);
