@@ -122,7 +122,7 @@ export const searchCompetitions = async (name: string) => {
         return await response.json();
     } catch (err) {
         console.log(err);
-        return [];
+        return null;
     }
 };
 

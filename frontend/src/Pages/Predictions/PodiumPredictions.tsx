@@ -23,7 +23,7 @@ const PodiumPredictions = () => {
     const handleSearch = async (event: any) => {
         setSearchText(event.target.value);
         const data = await fetchData(event.target.value);
-        if (data.length > 0) {
+        if (data) {
             setCompetitions(data);
             setIsLoading(false);    
         } else {
