@@ -18,7 +18,7 @@ export const getCompetitionInfo = async (id: string) => {
         return await response.json();
     } catch (err) {
         console.log(err);
-        return {};
+        return null;
     }
 };
 export const getPodiumForEvent = (competitionInfo: any, eventId: string) => {

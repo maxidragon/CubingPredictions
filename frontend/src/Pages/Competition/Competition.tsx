@@ -1,12 +1,13 @@
 import {getCompetitionInfo} from '../../logic/competitions';
 import {useEffect, useState} from "react";
-import {useParams} from "react-router-dom";
+import {useNavigate, useParams} from "react-router-dom";
 import events from './../../logic/events';
 import CompetitionEvent from './CompetitionEvent/CompetitionEvent';
 import EventSelect from "../../Components/EventSelect/EventSelect";
 import {Box, CircularProgress, Typography} from "@mui/material";
 
 const Competition = (props: any) => {
+    const navigate = useNavigate();
     const {competitionId} = useParams<{ competitionId: string }>();
     const [competition, setCompetition] = useState<any>({});
     const [event, setEvent] = useState<any>({});
@@ -18,11 +19,13 @@ const Competition = (props: any) => {
                 if (info) {
                     setCompetition(info);
                     setEvent(events.find(e => e.id === info.events[0].id));
+                } else {
+                    navigate('/wca');
                 }
             }
         };
         fetchData();
-    }, [competitionId]);
+    }, [competitionId, navigate]);
     const handleEventChange = (id: string) => {
         const newEvent = events.find(e => e.id === id);
         if (newEvent) {
@@ -41,7 +44,7 @@ const Competition = (props: any) => {
             }}>
                 <Typography variant="h4">{competition.name}</Typography>
                 <EventSelect selectedEvent={event} events={competition.events} eventChange={handleEventChange}/>
-                {competition.id ? <CompetitionEvent competition={competition} event={event}/>: <CircularProgress />}
+                {competition && competition.id ? <CompetitionEvent competition={competition} event={event}/>: <CircularProgress />}
             </Box>
         </>
     )

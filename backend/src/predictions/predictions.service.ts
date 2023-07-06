@@ -280,6 +280,9 @@ export class PredictionsService {
       if (round.results.length === 0) {
         return;
       }
+      if (!round.results.some((result) => result.ranking !== null)) {
+        return;
+      }
       const firstPlace = round.results.find((result) => result.ranking === 1);
       const secondPlace = round.results.find((result) => result.ranking === 2);
       const thirdPlace = round.results.find((result) => result.ranking === 3);
@@ -289,33 +292,39 @@ export class PredictionsService {
       let firstPlaceWcaId = '';
       let secondPlaceWcaId = '';
       let thirdPlaceWcaId = '';
-        if (!firstPlace) {
-          isNoneFirstPlace = true;
-        } else {
-          firstPlaceWcaId = competitionInfo.persons.find(
-            (person) => person.registrantId === firstPlace.personId,
-          ).wcaId;
-          isNoneFirstPlace = !(firstPlace.attempts.some(result => result.best !== -1 && result.best !== -2));
-        }
-        if (!secondPlace) {
-          isNoneSecondPlace = true;
-        } else {
-          secondPlaceWcaId = competitionInfo.persons.find(
-            (person) => person.registrantId === secondPlace.personId,
-          ).wcaId;
-          isNoneSecondPlace = !(secondPlace.attempts.some(result => result.best !== -1 && result.best !== -2));
-        }
-        if (!thirdPlace) {
-          isNoneThirdPlace = true;
-        } else {
-          thirdPlaceWcaId = competitionInfo.persons.find(
-            (person) => person.registrantId === thirdPlace.personId,
-          ).wcaId;
-          isNoneThirdPlace = !(thirdPlace.attempts.some(result => result.best !== -1 && result.best !== -2));
-        }
-
-     
-     
+      if (!firstPlace) {
+        isNoneFirstPlace = true;
+        firstPlaceWcaId = 'NONE';
+      } else {
+        firstPlaceWcaId = competitionInfo.persons.find(
+          (person) => person.registrantId === firstPlace.personId,
+        ).wcaId;
+        isNoneFirstPlace = !firstPlace.attempts.some(
+          (result) => result.best !== -1 && result.best !== -2,
+        );
+      }
+      if (!secondPlace) {
+        isNoneSecondPlace = true;
+        secondPlaceWcaId = 'NONE';
+      } else {
+        secondPlaceWcaId = competitionInfo.persons.find(
+          (person) => person.registrantId === secondPlace.personId,
+        ).wcaId;
+        isNoneSecondPlace = !secondPlace.attempts.some(
+          (result) => result.best !== -1 && result.best !== -2,
+        );
+      }
+      if (!thirdPlace) {
+        isNoneThirdPlace = true;
+        thirdPlaceWcaId = 'NONE';
+      } else {
+        thirdPlaceWcaId = competitionInfo.persons.find(
+          (person) => person.registrantId === thirdPlace.personId,
+        ).wcaId;
+        isNoneThirdPlace = !thirdPlace.attempts.some(
+          (result) => result.best !== -1 && result.best !== -2,
+        );
+      }
       this.checkPodiumPredictionsForEvent(
         competitionId,
         eventId,
@@ -350,7 +359,7 @@ export class PredictionsService {
     }
     if (isNoneSecondPlace) {
       secondPlaceWcaId = 'NONE';
-    } 
+    }
     if (isNoneThirdPlace) {
       thirdPlaceWcaId = 'NONE';
     }

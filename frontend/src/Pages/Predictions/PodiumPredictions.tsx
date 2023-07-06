@@ -1,6 +1,6 @@
 import {searchCompetitions} from '../../logic/competitions';
 import {useEffect, useState} from "react";
-import {Link} from 'react-router-dom';
+import {Link, useNavigate} from 'react-router-dom';
 import {
     Box,
     CircularProgress,
@@ -16,13 +16,19 @@ import {
 import CompetitionFlagIcon from '../../Components/CompetitionFlagIcon';
 
 const PodiumPredictions = () => {
+    const navigate = useNavigate();
     const [competitions, setCompetitions] = useState<any[]>([]);
     const [isLoading, setIsLoading] = useState<boolean>(false);
     const [searchText, setSearchText] = useState<string>('');
     const handleSearch = async (event: any) => {
         setSearchText(event.target.value);
-        setCompetitions(await fetchData(event.target.value));
-        setIsLoading(false);
+        const data = await fetchData(event.target.value);
+        if (data.length > 0) {
+            setCompetitions(data);
+            setIsLoading(false);    
+        } else {
+            navigate('/wca');
+        }
     };
     const fetchData = async (q: string) => {
         setIsLoading(true);
@@ -30,12 +36,16 @@ const PodiumPredictions = () => {
     };
     useEffect(() => {
         fetchData('').then((data) => {
-            setCompetitions(data);
-            setIsLoading(false);
+            if (data.length > 0) {
+                setCompetitions(data);
+                setIsLoading(false);    
+            } else {
+                navigate('/wca');
+            }
         }).catch((err) => {
             console.log(err);
         });
-    }, []);
+    }, [navigate]);
 
     return (
         <>
@@ -61,7 +71,7 @@ const PodiumPredictions = () => {
                         <Paper>
                             {isLoading ? <Box sx={{display: 'flex', alignItems: 'center', justifyContent: 'center', textAlign: 'center'}}><CircularProgress  /></Box> : (
                             <List dense={true} disablePadding>
-                                {competitions && competitions.map((competition) => (
+                                {competitions.length > 0 && competitions.map((competition) => (
                                     <ListItemButton
                                         key={competition.id}
                                         component={Link}

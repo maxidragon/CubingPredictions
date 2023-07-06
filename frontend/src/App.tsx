@@ -27,6 +27,10 @@ const router = createHashRouter([
     element: <Layout children={<ErrorElement message={'404 not found'} />} />,
   },
   {
+    path: '/wca',
+    element: <Layout children={<ErrorElement message={'WCA website is down'} />} />,
+  },
+  {
     path: "/auth/login",
     element: <Login />,
   },
