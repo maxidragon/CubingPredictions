@@ -1,12 +1,12 @@
-import {useEffect, useState} from "react";
-import {getUserInfo, getUserProfile} from "../../logic/auth";
-import {Link as LinkComponent, useNavigate, useParams} from "react-router-dom";
-import {Box, CircularProgress, Link, Typography} from "@mui/material";
+import { useEffect, useState } from "react";
+import { getUserInfo, getUserProfile } from "../../logic/auth";
+import { Link as LinkComponent, useNavigate, useParams } from "react-router-dom";
+import { Box, CircularProgress, Link, Typography } from "@mui/material";
 import UserPodiumPredictions from "./UserPredictions/UserPodiumPredictions";
 
 const Profile = () => {
     const user = getUserInfo();
-    const {userId} = useParams<{ userId: string }>();
+    const { userId } = useParams<{ userId: string }>();
     const navigate = useNavigate();
     const [profile, setProfile] = useState<any>(null);
     const [isLoading, setIsLoading] = useState<boolean>(true);
@@ -36,12 +36,16 @@ const Profile = () => {
                 flexDirection: 'column'
             }}>
                 {isLoading ? (
-                    <CircularProgress/>
+                    <CircularProgress />
                 ) : (
                     <>
                         <Typography variant="h4">{profile.username}</Typography>
                         {profile.wcaId && (
-                            <Typography variant="h6">WCA ID: {profile.wcaId}</Typography>
+                            <Typography variant="h6">WCA ID: {' '}
+                                <Link href={`https://worldcubeassociation.org/persons/${profile.wcaId}`} underline="none" target="_blank">
+                                    {profile.wcaId}
+                                </Link>
+                            </Typography>
                         )}
                         {userId && +userId === user.id && (
                             <Link
@@ -52,7 +56,7 @@ const Profile = () => {
                                 Edit profile
                             </Link>
                         )}
-                        <UserPodiumPredictions userId={userId}/>
+                        <UserPodiumPredictions userId={userId} />
                     </>
                 )}
             </Box>

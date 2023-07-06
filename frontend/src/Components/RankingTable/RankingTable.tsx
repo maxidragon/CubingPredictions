@@ -1,7 +1,9 @@
 import {Link, Table, TableBody, TableCell, TableHead, TableRow} from "@mui/material";
+import {Link as RouterLink} from "react-router-dom";
 import classes from "./RankingTable.module.css";
 
 const RankingTable = (props: any) => {
+    console.log(props.persons);
     return (
         <>
             <div className={classes.rankingTable}>
@@ -16,16 +18,19 @@ const RankingTable = (props: any) => {
                     </TableHead>
                     <TableBody>
                         {props.persons.map((person: any, position: number) => (
-                           <TableRow key={person.id}>
+                           <TableRow key={person.user.id}>
                                 <TableCell>
                                     {position+1}
                                 </TableCell>
                                 <TableCell>
-                                    {person.user.username}
+                                <Link to={`/profile/${person.user.id}`} underline="none" component={RouterLink}>
+                                {person.user.username}
+                                    </Link>
+              
                                 </TableCell>
                                 <TableCell>
-                                    {person.wcaId &&
-                                    <Link href={`https://worldcubeassociation.org/persons/${person.wcaId}`} underline="none" target="_blank">
+                                    {person.user.wcaId &&
+                                    <Link href={`https://worldcubeassociation.org/persons/${person.user.wcaId}`} underline="none" target="_blank">
                                         {person.user.wcaId}
                                     </Link>
                                     }
