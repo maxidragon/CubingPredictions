@@ -6,10 +6,8 @@ const Podium = (props: any) => {
     const [ranking, setRanking] = useState<any>([]);
     useEffect(() => {
         const generateRankingData = () => {
-            console.log(props.competition, props.event);
             if (props.competition.persons) {
                 const generatedRanking = getPodiumForEvent(props.competition, props.event.id);
-                console.log(generatedRanking);
                 setRanking(generatedRanking);
             }
         };

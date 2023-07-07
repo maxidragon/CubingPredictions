@@ -1,7 +1,6 @@
 import {Typography} from "@mui/material";
 
 const AlreadyPredicted = (props: any) => {
-    console.log(props.yourPrediction);
     return (
         <>
             <Typography variant="h6">You have already predicted {props.event.name} final

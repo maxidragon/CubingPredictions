@@ -8,12 +8,10 @@ import Podium from "../Podium/Podium";
 const CompetitionEvent = (props: any) => {
     const [isEnded, setIsEnded] = useState(false);
     useEffect(() => {
-        console.log(props.competition);
         const now = new Date();
         if (props.competition) {
             const startDate = new Date(props.competition.schedule.startDate);
             const endDate = new Date(startDate);
-            console.log(endDate, props.competition.schedule.numberOfDays);
             if (endDate.getDate() === 1) {
                 endDate.setDate(7);
             }

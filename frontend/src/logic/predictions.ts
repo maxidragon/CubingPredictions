@@ -18,9 +18,7 @@ export const addPodiumPrediction = async (competitionId: string, competitionName
 };
 
 export const checkPodiumPrediction = (firstPlaceWcaId: string, secondPlaceWcaId: string, thirdPlaceWcaId: string) => {
-    console.log(firstPlaceWcaId, secondPlaceWcaId, thirdPlaceWcaId);
     if (firstPlaceWcaId === 'NONE' || secondPlaceWcaId === 'NONE' || thirdPlaceWcaId === 'NONE') {
-
         if (firstPlaceWcaId === 'NONE' && secondPlaceWcaId === 'NONE' && thirdPlaceWcaId === 'NONE') {
             return true;
         } else {

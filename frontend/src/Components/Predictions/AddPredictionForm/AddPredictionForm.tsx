@@ -13,6 +13,10 @@ const AddPredictionForm = (props: any) => {
     useEffect(() => {
         const options = [...props.competitors];
         options.push({ name: "No one", wcaId: 'NONE', worldRank: 0 });
+        options.sort((a: any, b: any) => {
+            return a.worldRank - b.worldRank;
+        });
+        
         setAllowedOptions(options);
       }, [props.competitors]);
     const handleFirstPlaceChange = (event: any, newValue: any) => {

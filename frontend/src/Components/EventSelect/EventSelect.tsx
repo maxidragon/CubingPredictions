@@ -3,7 +3,6 @@ import React from "react";
 import "@cubing/icons";
 
 const EventSelect = (props: any) => {
-    console.log('eveents');
     return (
         <div>
             {props.events && props.events.map((event: any) => (

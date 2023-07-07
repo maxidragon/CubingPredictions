@@ -1,6 +1,6 @@
 import { resultToString } from './results';
 import { backendRequest } from "./request";
-import { Person, Round, Event as EventInterface, PersonalBest } from '@wca/helpers';
+import { Person, Round, Event as EventInterface, PersonalBest, EventId } from '@wca/helpers';
 
 export const getUpcomingCompetitions = async () => {
     try {
@@ -77,27 +77,29 @@ export const getPodiumForEvent = (competitionInfo: any, eventId: string) => {
     }
 };
 
-export const generateRanking = (persons: Person[], event: string, type: string) => {
-    const ranking: { name: string, wcaId: string, country: string, result: string, worldRank: number, notResult: boolean }[] = [];
-    persons.forEach((person: any) => {
+export const generateRanking = (persons: Person[], event: EventId, type: string) => {
+    const ranking: { id: number, name: string, wcaId: string, country: string, result: string, worldRank: number, notResult: boolean }[] = [];
+    persons.forEach((person: Person) => {
         if (person.registration && person.registration.eventIds.includes(event)) {
-            person.personalBests.forEach((pb: any) => {
+            person.personalBests?.forEach((pb: PersonalBest) => {
                 if (pb.eventId === event && pb.type === type) {
                     ranking.push({
+                        id: person.wcaUserId,
                         name: person.name,
-                        wcaId: person.wcaId,
-                        country: person.country,
+                        wcaId: person.wcaId || '',
+                        country: person.countryIso2,
                         result: resultToString(pb.best, event, type),
                         worldRank: pb.worldRanking,
                         notResult: false,
                     });
                 }
             });
-            if (!(person.personalBests.some((pb: PersonalBest) => pb.eventId === event && pb.type === type))) {
+            if (!(person.personalBests?.some((pb: PersonalBest) => pb.eventId === event && pb.type === type))) {
                 ranking.push({
+                    id: person.wcaUserId,
                     name: person.name,
-                    wcaId: person.wcaId,
-                    country: person.country,
+                    wcaId: person.wcaId || '',
+                    country: person.countryIso2,
                     result: '',
                     worldRank: 999999999999,
                     notResult: true,
@@ -111,7 +113,7 @@ export const generateRanking = (persons: Person[], event: string, type: string) 
     return ranking;
 };
 
-export const getFinalStartTime = async (id: string, event: string) => {
+export const getFinalStartTime = async (id: string, event: EventId) => {
     try {
         const response = await backendRequest(`competitions/${id}/final/${event}`, 'GET', false);
         return await response.json();
@@ -121,7 +123,7 @@ export const getFinalStartTime = async (id: string, event: string) => {
     }
 };
 
-export const getCompetitorsForEvent = async (competitors: Person[], event: string) => {
+export const getCompetitorsForEvent = async (competitors: Person[], event: EventId) => {
     const competitorsForEvent: any[] = [];
     if (competitors) {
         competitors.forEach((competitor: any) => {

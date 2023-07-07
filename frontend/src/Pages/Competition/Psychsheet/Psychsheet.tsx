@@ -2,6 +2,7 @@ import classes from "./Psychsheet.module.css";
 import { Button, Link, Table, TableBody, TableCell, TableHead, TableRow, Typography } from "@mui/material";
 import { generateRanking } from "../../../logic/competitions";
 import { useEffect, useState } from "react";
+import Flag from "react-world-flags";
 
 const Psychsheet = (props: any) => {
     const [ranking, setRanking] = useState<any>([]);
@@ -42,6 +43,7 @@ const Psychsheet = (props: any) => {
                     <TableHead>
                         <TableRow>
                             <TableCell>Position</TableCell>
+                            <TableCell>Country</TableCell>
                             <TableCell>Name</TableCell>
                             <TableCell>Result</TableCell>
                             <TableCell>WR</TableCell>
@@ -51,9 +53,10 @@ const Psychsheet = (props: any) => {
                         {ranking.map((player: any, position: number) => (
                             <TableRow key={player.id}>
                                 <TableCell>
-                                    <TableCell>
-                                        {player.notResult ? '' : position + 1}
-                                    </TableCell>
+                                    {player.notResult ? '' : position + 1}
+                                </TableCell>
+                                <TableCell>
+                                    <Flag code={player.country.toLowerCase()} width="32" />
                                 </TableCell>
                                 <TableCell>
                                     <Link href={`https://worldcubeassociation.org/persons/${player.wcaId}`}

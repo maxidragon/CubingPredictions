@@ -13,10 +13,9 @@ import {forgotPassword} from "../../../logic/auth";
 import {enqueueSnackbar} from "notistack";
 
 
-function ForgotPassword() {
+const ForgotPassword = () => {
     const emailRef: any = useRef();
     const handleSubmit = async () => {
-        console.log(emailRef.current.value);
         if (emailRef.current.value === '') {
             return;
         } else {

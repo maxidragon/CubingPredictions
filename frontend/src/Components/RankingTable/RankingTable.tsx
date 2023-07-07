@@ -3,7 +3,7 @@ import {Link as RouterLink} from "react-router-dom";
 import classes from "./RankingTable.module.css";
 
 const RankingTable = (props: any) => {
-    console.log(props.persons);
+
     return (
         <>
             <div className={classes.rankingTable}>
