@@ -1,9 +1,14 @@
 import { Link, Table, TableBody, TableCell, TableHead, TableRow } from "@mui/material";
 import { Link as RouterLink } from "react-router-dom";
 import classes from "./RankingTable.module.css";
-
+import { useEffect, useState } from "react";
 const RankingTable = (props: any) => {
-
+    const [persons, setPersons] = useState<any>([]);
+    useEffect(() => {
+        const sortedPersons = [...props.persons];
+        sortedPersons.sort((a, b) => b.score - a.score);
+        setPersons(sortedPersons);
+    }, [props.persons]);
     return (
         <>
             <div className={classes.rankingTable}>
@@ -17,17 +22,17 @@ const RankingTable = (props: any) => {
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        {props.persons.map((person: any, position: number) => {
-                             let previousScore = position > 0 ? props.persons[position - 1].score : null;
-                             let previousPosition = position > 0 ? position - 1 : 0;
-                                console.log(previousScore, person.score);
-                             if (previousScore === person.score) {
-                                 position = previousPosition;
-                             }
+                        {persons.map((person: any, position: number) => {
+                            let previousPosition = position - 1;
+                            if (position > 0 && person.score === persons[previousPosition].score) {
+                                position = persons[previousPosition].position;
+                            } else {
+                                person.position = position + 1;
+                            }
                             return (
                                 <TableRow key={person.user.id}>
                                     <TableCell>
-                                        {position + 1}
+                                        {person.position}
                                     </TableCell>
                                     <TableCell>
                                         <Link to={`/profile/${person.user.id}`} underline="none" component={RouterLink}>
