@@ -1,11 +1,11 @@
 import { useEffect, useState } from "react";
-import { getUserInfo, getUserProfile } from "../../logic/auth";
+import { getUserInfo, getUserProfile, isUserLoggedIn } from "../../logic/auth";
 import { Link as LinkComponent, useNavigate, useParams } from "react-router-dom";
 import { Box, CircularProgress, Link, Typography } from "@mui/material";
 import UserPodiumPredictions from "./UserPredictions/UserPodiumPredictions";
 
 const Profile = () => {
-    const user = getUserInfo();
+    const [user, setUser] = useState<any>(null);
     const { userId } = useParams<{ userId: string }>();
     const navigate = useNavigate();
     const [profile, setProfile] = useState<any>(null);
@@ -23,6 +23,17 @@ const Profile = () => {
         };
         fetchData();
     }, [navigate, userId]);
+    useEffect(() => {
+        const fetchData = async () => {
+            const isLoggedIn = await isUserLoggedIn();
+            if (isLoggedIn) {
+                const userData = await getUserInfo();
+                setUser(userData);
+            }
+        };
+        fetchData();
+    }, []);
+        
     return (
         <>
 
@@ -48,7 +59,7 @@ const Profile = () => {
                         )}
                         <Typography variant="h6">Score: {profile.score}</Typography>
                         <Typography variant="h6">Predictions: {profile.predictionsNumber}</Typography>
-                        {userId && +userId === user.id && (
+                        {user && userId && +userId === user.id && (
                             <Link
                                 component={LinkComponent}
                                 to="/settings"
