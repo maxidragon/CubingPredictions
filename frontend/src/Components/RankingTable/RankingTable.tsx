@@ -19,8 +19,8 @@ const RankingTable = (props: any) => {
                     <TableBody>
                         {props.persons.map((person: any, position: number) => {
                              let previousScore = position > 0 ? props.persons[position - 1].score : null;
-                             let previousPosition = position > 0 ? position : 0;
-                         
+                             let previousPosition = position > 0 ? position - 1 : 0;
+                                console.log(previousScore, person.score);
                              if (previousScore === person.score) {
                                  position = previousPosition;
                              }
