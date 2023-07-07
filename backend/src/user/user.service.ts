@@ -6,8 +6,26 @@ import { UpdateSettingsDto } from './dto/updateSettings.dto';
 export class UserService {
   constructor(private readonly prisma: DbService) {}
   async getUserProfile(id: number): Promise<object | null> {
-    const { prisma } = this;
-    return prisma.user.findUnique({
+    const sumOfScore = await this.prisma.podiumPrediction.groupBy({
+      where: {
+        authorId: id,
+      },
+      by: ['authorId'],
+      _sum: {
+        score: true,
+      },
+      orderBy: {
+        _sum: {
+          score: 'desc',
+        },
+      },
+    });
+    const predictionsNumber = await this.prisma.podiumPrediction.count({
+      where: {
+        authorId: id,
+      },
+    });
+    const user = await this.prisma.user.findUnique({
       where: {
         id,
       },
@@ -17,6 +35,10 @@ export class UserService {
         wcaId: true,
       },
     });
+    const profile: any = user;
+    profile.score = sumOfScore[0]?._sum?.score || 0;
+    profile.predictionsNumber = predictionsNumber;
+    return profile;
   }
   async getSettings(userId: number) {
     const { prisma } = this;

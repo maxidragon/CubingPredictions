@@ -15,7 +15,6 @@ const Profile = () => {
             setIsLoading(true);
             if (userId) {
                 const profile = await getUserProfile(+userId);
-                console.log(profile);
                 setProfile(profile);
                 setIsLoading(false);
             } else {
@@ -47,6 +46,8 @@ const Profile = () => {
                                 </Link>
                             </Typography>
                         )}
+                        <Typography variant="h6">Score: {profile.score}</Typography>
+                        <Typography variant="h6">Predictions: {profile.predictionsNumber}</Typography>
                         {userId && +userId === user.id && (
                             <Link
                                 component={LinkComponent}
