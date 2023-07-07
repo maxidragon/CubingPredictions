@@ -26,29 +26,54 @@ export const getPodiumForEvent = (competitionInfo: any, eventId: string) => {
         const eventInfo = competitionInfo.events.find(
             (event: EventInterface) => event.id === eventId,
         );
-        if (eventInfo.results) {
             const roundsCount = eventInfo.rounds.length;
             const round = eventInfo.rounds.find(
                 (round: Round) => round.id === `${eventId}-r${roundsCount}`,
             );
+            if (!roundHasResults(round)) {
+                return null;
+            }
             const firstPlace = round.results.find((result: any) => result.ranking === 1);
             const secondPlace = round.results.find((result: any) => result.ranking === 2);
             const thirdPlace = round.results.find((result: any) => result.ranking === 3);
-            const firstPlaceWcaId = competitionInfo.persons.find(
-                (person: Person) => person.registrantId === firstPlace.personId,
-            );
-            const secondPlaceWcaId = competitionInfo.persons.find(
-                (person: Person) => person.registrantId === secondPlace.personId,
-            );
-            const thirdPlaceWcaId = competitionInfo.persons.find(
-                (person: Person) => person.registrantId === thirdPlace.personId,
-            );
+            let firstPlaceWcaId = {};
+            let secondPlaceWcaId = {};
+            let thirdPlaceWcaId = {};
+            if (!firstPlace) {
+                firstPlaceWcaId = {
+                    name: 'No one',
+                    wcaId: '',
+                };
+            } else {
+                firstPlaceWcaId = competitionInfo.persons.find(
+                    (person: Person) => person.registrantId === firstPlace.personId,
+                );
+            }
+            if (!secondPlace) {
+                secondPlaceWcaId = {
+                    name: 'No one',
+                    wcaId: '',
+                };
+            } else {
+                secondPlaceWcaId = competitionInfo.persons.find(
+                    (person: Person) => person.registrantId === secondPlace.personId,
+                );
+            }
+            if (!thirdPlace) {
+                thirdPlaceWcaId = {
+                    name: 'No one',
+                    wcaId: '',
+                }
+            } else {
+                thirdPlaceWcaId = competitionInfo.persons.find(
+                    (person: Person) => person.registrantId === thirdPlace.personId,
+                );
+            }
             return {
                 firstPlace: firstPlaceWcaId,
                 secondPlace: secondPlaceWcaId,
                 thirdPlace: thirdPlaceWcaId,
             };
-        }
     }
 };
 
@@ -114,6 +139,16 @@ export const getCompetitorsForEvent = async (competitors: Person[], event: strin
         return a.worldRank - b.worldRank;
     });
     return competitorsForEvent;
+};
+
+export const roundHasResults = (round: Round) => {
+    if (round.results.length > 0) {
+        return true;
+    }
+    if (!(round.results.some((result: any) => result.best > 0))) {
+        return false;
+    }
+    return true;
 };
 
 export const searchCompetitions = async (name: string) => {

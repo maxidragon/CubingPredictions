@@ -1,14 +1,14 @@
-import {getCompetitionInfo} from '../../logic/competitions';
-import {useEffect, useState} from "react";
-import {useNavigate, useParams} from "react-router-dom";
+import { getCompetitionInfo } from '../../logic/competitions';
+import { useEffect, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 import events from './../../logic/events';
 import CompetitionEvent from './CompetitionEvent/CompetitionEvent';
 import EventSelect from "../../Components/EventSelect/EventSelect";
-import {Box, CircularProgress, Typography} from "@mui/material";
+import { Box, CircularProgress, Link, Typography } from "@mui/material";
 
 const Competition = (props: any) => {
     const navigate = useNavigate();
-    const {competitionId} = useParams<{ competitionId: string }>();
+    const { competitionId } = useParams<{ competitionId: string }>();
     const [competition, setCompetition] = useState<any>({});
     const [event, setEvent] = useState<any>({});
 
@@ -42,9 +42,9 @@ const Competition = (props: any) => {
                 textAlign: 'center !important',
                 mt: 3
             }}>
-                <Typography variant="h4">{competition.name}</Typography>
-                <EventSelect selectedEvent={event} events={competition.events} eventChange={handleEventChange}/>
-                {competition && competition.id ? <CompetitionEvent competition={competition} event={event}/>: <CircularProgress />}
+                <Typography variant="h4"><Link href={`https://worldcubeassociation.org/competitions/${competition.id}`} sx={{textDecoration: 'none'}} target="_blank">{competition.name}</Link></Typography>
+                <EventSelect selectedEvent={event} events={competition.events} eventChange={handleEventChange} />
+                {competition && competition.id ? <CompetitionEvent competition={competition} event={event} /> : <CircularProgress />}
             </Box>
         </>
     )

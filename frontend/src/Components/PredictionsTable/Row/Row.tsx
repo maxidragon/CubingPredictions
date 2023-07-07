@@ -1,16 +1,9 @@
-import Box from '@mui/material/Box';
-import Collapse from '@mui/material/Collapse';
-import IconButton from '@mui/material/IconButton';
-import Table from '@mui/material/Table';
-import TableBody from '@mui/material/TableBody';
-import TableCell from '@mui/material/TableCell';
-import TableHead from '@mui/material/TableHead';
-import TableRow from '@mui/material/TableRow';
-import Typography from '@mui/material/Typography';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import {useState} from "react";
 import events from '../../../logic/events';
+import { Box, Collapse, IconButton, Link, Table, TableBody, TableCell, TableHead, TableRow, Typography } from '@mui/material';
+import { Link as RouterLink } from 'react-router-dom';
 
 const Row = (props: any) => {
     const { row } = props;
@@ -29,7 +22,7 @@ const Row = (props: any) => {
                     </IconButton>
                 </TableCell>
                 <TableCell component="th" scope="row">
-                    {row.competitionName}
+                    <Link component={RouterLink} to={`/competitions/${row.competitionId}`} sx={{textDecoration: 'none'}}>{row.competitionName}</Link>
                 </TableCell>
                 <TableCell>{row.sumOfScore}</TableCell>
             </TableRow>

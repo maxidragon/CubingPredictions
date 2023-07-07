@@ -9,7 +9,7 @@ const Navbar = (props: any) => {
             <Toolbar>
                 <Typography variant="h6" color="inherit" style={{flexGrow: 1}}  component={Link}
                             to={`/`} sx={{textDecoration: 'none'}}>
-                    {props.title ? props.title : "Cubing predictions"}
+                    {props.title ? props.title : "Cubing Predictions"}
                 </Typography>
                 <LoginPartial />
                 <IconButton component={Link} to="/about" rel="noopener noreferrer">

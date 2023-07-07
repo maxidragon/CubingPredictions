@@ -13,6 +13,10 @@ const CompetitionEvent = (props: any) => {
         if (props.competition) {
             const startDate = new Date(props.competition.schedule.startDate);
             const endDate = new Date(startDate);
+            console.log(endDate, props.competition.schedule.numberOfDays);
+            if (endDate.getDate() === 1) {
+                endDate.setDate(7);
+            }
             endDate.setDate(startDate.getDate() + props.competition.schedule.numberOfDays);
             if (now.getTime() > endDate.getTime()) {
                 setIsEnded(true);
