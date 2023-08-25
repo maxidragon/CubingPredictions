@@ -12,3 +12,7 @@ export const backendRequest = (path: string, method: string, useAuth: boolean, b
         body: JSON.stringify(body),
     });
 };
+
+export const wcaApiRequest = (path: string) => {
+    return fetch(`https://www.worldcubeassociation.org/api/v0/${path}`);
+};

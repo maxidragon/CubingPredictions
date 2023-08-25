@@ -19,49 +19,37 @@ export class PredictionsService {
     secondPlaceWcaId: string,
     thirdPlaceWcaId: string,
   ) {
-    if (
-      (await this.competitionsService.getFinalStartTime(
-        competitionId,
-        eventId,
-      )) > new Date()
-    ) {
-      try {
-        const compExist = await this.prisma.competition.findUnique({
-          where: {
-            id: competitionId,
-          },
-        });
-        if (!compExist) {
-          await this.prisma.competition.create({
-            data: {
-              id: competitionId,
-              name: competitionName,
-            },
-          });
-        }
-        await this.prisma.podiumPrediction.create({
+    try {
+      const compExist = await this.prisma.competition.findUnique({
+        where: {
+          id: competitionId,
+        },
+      });
+      if (!compExist) {
+        await this.prisma.competition.create({
           data: {
-            eventId,
-            competitionId,
-            authorId: userId,
-            firstPlaceWcaId,
-            secondPlaceWcaId,
-            thirdPlaceWcaId,
-            score: 0,
+            id: competitionId,
+            name: competitionName,
           },
         });
-        return { message: 'Prediction added successfully' };
-      } catch (error) {
-        console.error(error);
-        throw new HttpException(
-          'You cannot add multiple predictions for the same podium!',
-          HttpStatus.CONFLICT,
-        );
       }
-    } else {
+      await this.prisma.podiumPrediction.create({
+        data: {
+          eventId,
+          competitionId,
+          authorId: userId,
+          firstPlaceWcaId,
+          secondPlaceWcaId,
+          thirdPlaceWcaId,
+          score: 0,
+        },
+      });
+      return { message: 'Prediction added successfully' };
+    } catch (error) {
+      console.error(error);
       throw new HttpException(
-        'You cannot add prediction for past finals!',
-        HttpStatus.FORBIDDEN,
+        'You cannot add multiple predictions for the same podium!',
+        HttpStatus.CONFLICT,
       );
     }
   }

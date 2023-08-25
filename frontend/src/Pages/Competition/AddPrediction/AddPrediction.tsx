@@ -56,6 +56,7 @@ const AddPrediction = (props: any) => {
                 props.competition.id,
                 props.event.id
             );
+            //@ts-ignore
             if (new Date(finalStartTime).getTime() < new Date().getTime()) {
                 setIsAllowed(false);
             } else {
