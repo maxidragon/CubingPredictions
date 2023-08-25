@@ -1,5 +1,5 @@
 import { resultToString } from "./results";
-import { backendRequest, wcaApiRequest } from "./request";
+import { wcaApiRequest } from "./request";
 import {
   Person,
   Round,
@@ -186,9 +186,9 @@ export const getFinalStartTime = async (id: string, eventId: EventId) => {
     const roundsCount = eventInfo.rounds.length;
     const venues = competitionInfo.schedule.venues;
     let finalStartTime: any = '2000-01-01';
-    venues.map((venue: any) => {
-      venue.rooms.map((room: any) => {
-        room.activities.map((activity: any) => {
+    venues.forEach((venue: any) => {
+      venue.rooms.forEach((room: any) => {
+        room.activities.forEach((activity: any) => {
           if (eventId !== '333mbf' && eventId !== '333fm') {
           if (activity.activityCode === `${eventId}-r${roundsCount}`) {
             finalStartTime = new Date(activity.startTime);
