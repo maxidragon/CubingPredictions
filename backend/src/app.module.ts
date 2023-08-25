@@ -1,13 +1,10 @@
 import { Module } from '@nestjs/common';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
 import { DbModule } from './db/db.module';
 import { AuthModule } from './auth/auth.module';
 import { MailerModule } from '@nestjs-modules/mailer';
 import { PredictionsModule } from './predictions/predictions.module';
 import { CompetitionsModule } from './competitions/competitions.module';
 import { RankingModule } from './ranking/ranking.module';
-import { ScheduleModule } from '@nestjs/schedule';
 import { UserModule } from './user/user.module';
 import { ServeStaticModule } from '@nestjs/serve-static';
 import { join } from 'path';
@@ -37,10 +34,7 @@ import { join } from 'path';
     PredictionsModule,
     CompetitionsModule,
     RankingModule,
-    ScheduleModule.forRoot(),
     UserModule,
   ],
-  controllers: [AppController],
-  providers: [AppService],
 })
 export class AppModule {}

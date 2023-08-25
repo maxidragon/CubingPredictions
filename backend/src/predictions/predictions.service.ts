@@ -1,7 +1,6 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { DbService } from '../db/db.service';
 import { CompetitionsService } from '../competitions/competitions.service';
-import { Cron, CronExpression } from '@nestjs/schedule';
 
 @Injectable()
 export class PredictionsService {
@@ -217,7 +216,7 @@ export class PredictionsService {
       );
     }
   }
-  @Cron(CronExpression.EVERY_3_HOURS)
+  // @Cron(CronExpression.EVERY_3_HOURS)
   async checkAllPodiumPredictions() {
     console.log('cron');
     const predictions = await this.prisma.podiumPrediction.findMany({

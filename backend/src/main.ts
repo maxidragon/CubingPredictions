@@ -1,6 +1,5 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
-import * as cookieParser from 'cookie-parser';
 import * as dotenv from 'dotenv';
 import { ValidationPipe } from '@nestjs/common';
 
@@ -15,7 +14,6 @@ async function bootstrap() {
       transformOptions: { enableImplicitConversion: true },
     }),
   );
-  app.use(cookieParser());
   app.enableCors({
     origin: ['https://maxidragon.github.io', 'http://localhost:3000'],
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH'],
