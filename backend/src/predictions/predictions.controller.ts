@@ -68,4 +68,8 @@ export class PredictionsController {
       eventId,
     );
   }
+  @Get('check')
+  async checkAllPodiumPredictions() {
+    return await this.predictionsService.checkAllPodiumPredictions();
+  }
 }
