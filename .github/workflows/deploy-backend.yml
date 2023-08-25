@@ -1,0 +1,31 @@
+name: Deploy backend
+
+on:
+  push:
+    branches: [ "main" ]
+
+jobs:
+  build:
+    runs-on: self-hosted
+
+    strategy:
+      matrix:
+        node-version: [19.x]
+
+    steps:
+    - uses: actions/checkout@v3
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v3
+      with:
+        node-version: ${{ matrix.node-version }}
+    - name: Install dependencies
+      run: npm install
+      working-directory: 'backend'
+    - name: Build
+      run: npm run build
+      working-directory: 'backend'
+    - name: Create .env
+      run: echo "${{secrets.ENV_PRODUCTION}}" > .env
+      working-directory: 'backend'
+    - name: Restart app
+      run: pm2 restart CubingPredictionsBackend
