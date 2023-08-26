@@ -33,16 +33,16 @@ export class CompetitionsService {
       venue.rooms.map((room) => {
         room.activities.map((activity) => {
           if (eventId !== '333mbf' && eventId !== '333fm') {
-          if (activity.activityCode === `${eventId}-r${roundsCount}`) {
-            finalStartTime = new Date(activity.startTime);
-            return activity.startTime;
+            if (activity.activityCode === `${eventId}-r${roundsCount}`) {
+              finalStartTime = new Date(activity.startTime);
+              return activity.startTime;
+            }
+          } else {
+            if (activity.activityCode === `${eventId}-r${roundsCount}-a1`) {
+              finalStartTime = new Date(activity.startTime);
+              return activity.startTime;
+            }
           }
-        } else {
-          if (activity.activityCode === `${eventId}-r${roundsCount}-a1`) {
-            finalStartTime = new Date(activity.startTime);
-            return activity.startTime;
-          }
-        }
         });
       });
     });
@@ -60,16 +60,16 @@ export class CompetitionsService {
       venue.rooms.map((room) => {
         room.activities.map((activity) => {
           if (eventId !== '333mbf' && eventId !== '333fm') {
-          if (activity.activityCode === `${eventId}-r${roundsCount}`) {
-            finalEndTime = new Date(activity.endTime);
-            return activity.endTime;
+            if (activity.activityCode === `${eventId}-r${roundsCount}`) {
+              finalEndTime = new Date(activity.endTime);
+              return activity.endTime;
+            }
+          } else {
+            if (activity.activityCode === `${eventId}-r${roundsCount}-a1`) {
+              finalEndTime = new Date(activity.endTime);
+              return activity.endTime;
+            }
           }
-        } else {
-          if (activity.activityCode === `${eventId}-r${roundsCount}-a1`) {
-            finalEndTime = new Date(activity.endTime);
-            return activity.endTime;
-          }
-        }
         });
       });
     });
@@ -158,10 +158,11 @@ export class CompetitionsService {
         start,
       },
     });
-    const competitions = response.data.filter((competition) => new Date(competition.start_date).getFullYear() >= 2023);
+    const competitions = response.data.filter(
+      (competition) => new Date(competition.start_date).getFullYear() >= 2023,
+    );
     return competitions;
   }
-  
 
   async getRegistrationInfo(id: string) {
     const compData = await this.getBasicInfo(id);

@@ -145,47 +145,6 @@ export class PredictionsService {
     return result;
   }
 
-  async getAllPodiumPredictionsForEvent(
-    competitionId: string,
-    eventId: string,
-  ) {
-    if (
-      (await this.competitionsService.getFinalStartTime(
-        competitionId,
-        eventId,
-      )) < new Date()
-    ) {
-      const predictions = await this.prisma.podiumPrediction.findMany({
-        where: {
-          competitionId,
-          eventId,
-        },
-        select: {
-          competitionId: true,
-          eventId: true,
-          firstPlaceWcaId: true,
-          secondPlaceWcaId: true,
-          thirdPlaceWcaId: true,
-          score: true,
-          id: true,
-          author: {
-            select: {
-              id: true,
-              username: true,
-            },
-          },
-        },
-        orderBy: {
-          createdAt: 'desc',
-        },
-      });
-    } else {
-      throw new HttpException(
-        'Final has not started yet!',
-        HttpStatus.FORBIDDEN,
-      );
-    }
-  }
   async getMyPodiumPredictionsForEvent(
     userId: number,
     competitionId: string,

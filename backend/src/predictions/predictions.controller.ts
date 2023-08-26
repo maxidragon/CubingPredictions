@@ -44,17 +44,6 @@ export class PredictionsController {
     );
   }
 
-  @Get('podium/competition/:competitionId/:eventId')
-  async getAllPodiumPredictionsForEvent(
-    @Param('competitionId') competitionId: string,
-    @Param('eventId') eventId: string,
-  ) {
-    return await this.predictionsService.getAllPodiumPredictionsForEvent(
-      competitionId,
-      eventId,
-    );
-  }
-
   @UseGuards(AuthGuard('jwt'))
   @Get('podium/my/:competitionId/:eventId/')
   async getMyPodiumPrediction(
