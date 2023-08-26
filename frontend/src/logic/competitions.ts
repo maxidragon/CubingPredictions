@@ -5,8 +5,17 @@ import {
   Round,
   Event as EventInterface,
   PersonalBest,
-  EventId,
+  Result,
+  Venue,
+  Room,
+  Activity,
 } from "@wca/helpers";
+import {
+  Competition,
+  CompetitionInfo,
+  Competitor,
+  PublicWCIF,
+} from "./interfaces";
 
 export const getUpcomingCompetitions = async () => {
   const today = new Date();
@@ -22,20 +31,20 @@ export const getUpcomingCompetitions = async () => {
   const nextMonthString = `${nextMonthYear}-${nextMonthMonth}-${nextMonthDay}`;
   try {
     const response = await wcaApiRequest(
-      `competitions?start=${todayString}&end=${nextMonthString}&per_page=50`
+      `competitions?start=${todayString}&end=${nextMonthString}&per_page=50`,
     );
     const data = await response.json();
-    const upcomingCompetitions: any[] = [];
-      data.forEach((competition: any) => {
-        upcomingCompetitions.push({
-          id: competition.id,
-          name: competition.name,
-          website: competition.url,
-          countryIso2: competition.country_iso2,
-          isRegistrationOpen:
-            new Date(competition.registration_open) > new Date(),
-        });
+    const upcomingCompetitions: Competition[] = [];
+    data.forEach((competition: CompetitionInfo) => {
+      upcomingCompetitions.push({
+        id: competition.id,
+        name: competition.name,
+        website: competition.url,
+        countryIso2: competition.country_iso2,
+        isRegistrationOpen:
+          new Date(competition.registration_open) > new Date(),
       });
+    });
     return upcomingCompetitions;
   } catch (err) {
     console.log(err);
@@ -54,68 +63,98 @@ export const getCompetitionInfo = async (id: string) => {
 };
 
 export const getBasicCompetitionInfo = async (id: string) => {
-    try {
-        const response = await wcaApiRequest(`competitions/${id}`);
-        return await response.json();
-    } catch(err) {
-        console.log(err);
-        return null;
-    }
+  try {
+    const response = await wcaApiRequest(`competitions/${id}`);
+    return await response.json();
+  } catch (err) {
+    console.log(err);
+    return null;
+  }
 };
 
-export const getPodiumForEvent = (competitionInfo: any, eventId: string) => {
+export const getPodiumForEvent = (
+  competitionInfo: PublicWCIF,
+  eventId: string,
+) => {
   if (competitionInfo.events) {
     const eventInfo = competitionInfo.events.find(
-      (event: EventInterface) => event.id === eventId
+      (event: EventInterface) => event.id === eventId,
     );
+    if (!eventInfo) {
+      return null;
+    }
     const roundsCount = eventInfo.rounds.length;
     const round = eventInfo.rounds.find(
-      (round: Round) => round.id === `${eventId}-r${roundsCount}`
+      (round: Round) => round.id === `${eventId}-r${roundsCount}`,
     );
-    if (!roundHasResults(round)) {
+    if (!round || !roundHasResults(round)) {
       return null;
     }
     const firstPlace = round.results.find(
-      (result: any) => result.ranking === 1
+      (result: Result) => result.ranking === 1,
     );
     const secondPlace = round.results.find(
-      (result: any) => result.ranking === 2
+      (result: Result) => result.ranking === 2,
     );
     const thirdPlace = round.results.find(
-      (result: any) => result.ranking === 3
+      (result: Result) => result.ranking === 3,
     );
-    let firstPlaceWcaId = {};
-    let secondPlaceWcaId = {};
-    let thirdPlaceWcaId = {};
-    if (!firstPlace) {
-      firstPlaceWcaId = {
-        name: "No one",
-        wcaId: "",
-      };
-    } else {
-      firstPlaceWcaId = competitionInfo.persons.find(
-        (person: Person) => person.registrantId === firstPlace.personId
+    let firstPlaceWcaId: Competitor = {
+      name: "No one",
+      wcaId: "",
+      wcaUserId: 0,
+      worldRank: 999999999999,
+    };
+    let secondPlaceWcaId: Competitor = {
+      name: "No one",
+      wcaId: "",
+      wcaUserId: 0,
+      worldRank: 999999999999,
+    };
+    let thirdPlaceWcaId: Competitor = {
+      name: "No one",
+      wcaId: "",
+      wcaUserId: 0,
+      worldRank: 999999999999,
+    };
+    if (firstPlace) {
+      const person = competitionInfo.persons.find(
+        (person: Person) => person.registrantId === firstPlace.personId,
       );
+      if (person) {
+        firstPlaceWcaId = {
+          name: person.name,
+          wcaId: person.wcaId || "",
+          wcaUserId: person.wcaUserId,
+          worldRank: 0,
+        };
+      }
     }
-    if (!secondPlace) {
-      secondPlaceWcaId = {
-        name: "No one",
-        wcaId: "",
-      };
-    } else {
-      secondPlaceWcaId = competitionInfo.persons.find(
-        (person: Person) => person.registrantId === secondPlace.personId
+    if (secondPlace) {
+      const person = competitionInfo.persons.find(
+        (person: Person) => person.registrantId === secondPlace.personId,
       );
+      if (person) {
+        secondPlaceWcaId = {
+          name: person.name,
+          wcaId: person.wcaId || "",
+          wcaUserId: person.wcaUserId,
+          worldRank: 0,
+        };
+      }
     }
-    if (!thirdPlace) {
-      thirdPlaceWcaId = {
-        name: "No one",
-        wcaId: "",
-      };
-    } else {
-      thirdPlaceWcaId = competitionInfo.persons.find(
-        (person: Person) => person.registrantId === thirdPlace.personId
+    if (thirdPlace) {
+      const person = competitionInfo.persons.find(
+        (person: Person) => person.registrantId === thirdPlace.personId,
       );
+      if (person) {
+        thirdPlaceWcaId = {
+          name: person.name,
+          wcaId: person.wcaId || "",
+          wcaUserId: person.wcaUserId,
+          worldRank: 0,
+        };
+      }
     }
     return {
       firstPlace: firstPlaceWcaId,
@@ -127,8 +166,8 @@ export const getPodiumForEvent = (competitionInfo: any, eventId: string) => {
 
 export const generateRanking = (
   persons: Person[],
-  event: EventId,
-  type: string
+  event: string,
+  type: string,
 ) => {
   const ranking: {
     id: number;
@@ -140,15 +179,20 @@ export const generateRanking = (
     notResult: boolean;
   }[] = [];
   persons.forEach((person: Person) => {
-    if (person.registration && person.registration.eventIds.includes(event)) {
+    if (person.registration) {
+      const stringEvents = person.registration.eventIds.join(",");
+      if (!stringEvents.includes(event)) {
+        return;
+      }
       person.personalBests?.forEach((pb: PersonalBest) => {
         if (pb.eventId === event && pb.type === type) {
+          const resultString = pb.best.toString();
           ranking.push({
             id: person.wcaUserId,
             name: person.name,
             wcaId: person.wcaId || "",
             country: person.countryIso2,
-            result: resultToString(pb.best, event, type),
+            result: resultToString(resultString, event, type),
             worldRank: pb.worldRanking,
             notResult: false,
           });
@@ -156,7 +200,7 @@ export const generateRanking = (
       });
       if (
         !person.personalBests?.some(
-          (pb: PersonalBest) => pb.eventId === event && pb.type === type
+          (pb: PersonalBest) => pb.eventId === event && pb.type === type,
         )
       ) {
         ranking.push({
@@ -177,59 +221,65 @@ export const generateRanking = (
   return ranking;
 };
 
-export const getFinalStartTime = async (id: string, eventId: EventId) => {
+export const getFinalStartTime = async (id: string, eventId: string) => {
   try {
     const competitionInfo = await getCompetitionInfo(id);
     const eventInfo = competitionInfo.events.find(
-      (event: any) => event.id === eventId,
+      (event: EventInterface) => event.id === eventId,
     );
     const roundsCount = eventInfo.rounds.length;
     const venues = competitionInfo.schedule.venues;
-    let finalStartTime: any = '2000-01-01';
-    venues.forEach((venue: any) => {
-      venue.rooms.forEach((room: any) => {
-        room.activities.forEach((activity: any) => {
-          if (eventId !== '333mbf' && eventId !== '333fm') {
-          if (activity.activityCode === `${eventId}-r${roundsCount}`) {
-            finalStartTime = new Date(activity.startTime);
-            return activity.startTime;
+    let finalStartTime: Date = new Date("2000-01-01");
+    venues.forEach((venue: Venue) => {
+      venue.rooms.forEach((room: Room) => {
+        room.activities.forEach((activity: Activity) => {
+          if (eventId !== "333mbf" && eventId !== "333fm") {
+            if (activity.activityCode === `${eventId}-r${roundsCount}`) {
+              finalStartTime = new Date(activity.startTime);
+              return activity.startTime;
+            }
+          } else {
+            if (activity.activityCode === `${eventId}-r${roundsCount}-a1`) {
+              finalStartTime = new Date(activity.startTime);
+              return activity.startTime;
+            }
           }
-        } else {
-          if (activity.activityCode === `${eventId}-r${roundsCount}-a1`) {
-            finalStartTime = new Date(activity.startTime);
-            return activity.startTime;
-          }
-        }
         });
       });
       return finalStartTime;
     });
   } catch (err) {
     console.log(err);
-    return '2000-01-01';
+    return "2000-01-01";
   }
 };
 
 export const getCompetitorsForEvent = async (
   competitors: Person[],
-  event: EventId
+  event: string,
 ) => {
-  const competitorsForEvent: any[] = [];
+  const competitorsForEvent: Competitor[] = [];
   if (competitors) {
-    competitors.forEach((competitor: any) => {
+    competitors.forEach((competitor: Person) => {
       if (
         competitor.registration &&
-        competitor.registration.eventIds.includes(event) &&
-        competitor.wcaId
+        competitor.wcaId &&
+        competitor.personalBests
       ) {
-        competitorsForEvent.push({
-          name: competitor.name,
-          wcaId: competitor.wcaId,
-          wcaUserId: competitor.wcaUserId,
-          worldRank: competitor.personalBests.find(
-            (pb: PersonalBest) => pb.eventId === event && pb.type === "average"
-          )?.worldRanking,
-        });
+        const stringRegistration = competitor.registration.eventIds.join(",");
+        if (stringRegistration.includes(event)) {
+          const pb = competitor.personalBests.find(
+            (pb: PersonalBest) => pb.eventId === event && pb.type === "average",
+          );
+          if (pb && pb.worldRanking) {
+            competitorsForEvent.push({
+              name: competitor.name,
+              wcaId: competitor.wcaId,
+              wcaUserId: competitor.wcaUserId,
+              worldRank: pb.worldRanking,
+            });
+          }
+        }
       }
     });
   }
@@ -243,7 +293,7 @@ export const roundHasResults = (round: Round) => {
   if (round.results.length > 0) {
     return true;
   }
-  if (!round.results.some((result: any) => result.best > 0)) {
+  if (!round.results.some((result: Result) => result.best > 0)) {
     return false;
   }
   return true;
@@ -259,12 +309,13 @@ export const searchCompetitions = async (name: string) => {
         .padStart(2, "0")}-${today.getDate().toString().padStart(2, "0")}`;
     }
     const response = await wcaApiRequest(
-      `competitions?q=${name}&start=${start}&per_page=50&sort=start_date`
+      `competitions?q=${name}&start=${start}&per_page=50&sort=start_date`,
     );
     const data = await response.json();
     console.log(data);
     const competitions = data.filter(
-      (competition: any) => new Date(competition.start_date).getFullYear() >= 2023
+      (competition: CompetitionInfo) =>
+        new Date(competition.start_date).getFullYear() >= 2023,
     );
     return competitions;
   } catch (err) {
@@ -285,11 +336,11 @@ export const getRegistrationData = async (id: string) => {
   } catch (err) {
     console.log(err);
     return {
-        registrationOpenDate: "",
-        registrationCloseDate: "",
-        isRegistrationOpen: false,
-        isRegistrationClosed: false,
-    }
+      registrationOpenDate: "",
+      registrationCloseDate: "",
+      isRegistrationOpen: false,
+      isRegistrationClosed: false,
+    };
   }
 };
 

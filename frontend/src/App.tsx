@@ -1,4 +1,3 @@
-import React from 'react';
 import { createTheme, ThemeProvider } from "@mui/material";
 import { createHashRouter, RouterProvider } from "react-router-dom";
 import Layout from "./Layout/Layout";
@@ -15,20 +14,22 @@ import ResetPassword from "./Pages/Auth/ResetPassword/ResetPassword";
 import ErrorElement from "./Pages/ErrorElement/ErrorElement";
 import Profile from "./Pages/Profile/Profile";
 import Settings from "./Pages/Settings/Settings";
-import { ConfirmProvider } from 'material-ui-confirm';
+import { ConfirmProvider } from "material-ui-confirm";
 
 const router = createHashRouter([
   {
     path: "*",
-    element: <Layout children={<ErrorElement message={'404 not found'} />} />,
+    element: <Layout children={<ErrorElement message={"404 not found"} />} />,
   },
   {
     path: "/404",
-    element: <Layout children={<ErrorElement message={'404 not found'} />} />,
+    element: <Layout children={<ErrorElement message={"404 not found"} />} />,
   },
   {
-    path: '/wca',
-    element: <Layout children={<ErrorElement message={'WCA website is down'} />} />,
+    path: "/wca",
+    element: (
+      <Layout children={<ErrorElement message={"WCA website is down"} />} />
+    ),
   },
   {
     path: "/auth/login",
@@ -47,7 +48,7 @@ const router = createHashRouter([
     element: <ResetPassword />,
   },
   {
-    path: '/about',
+    path: "/about",
     element: <Layout children={<About />} />,
   },
   {
@@ -73,11 +74,11 @@ const router = createHashRouter([
   {
     path: "/settings",
     element: <Layout children={<Settings />} />,
-  }
+  },
 ]);
 const lightTheme = createTheme({
   palette: {
-    mode: 'light',
+    mode: "light",
   },
 });
 function App() {
