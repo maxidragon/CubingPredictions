@@ -32,10 +32,28 @@ export const resultToString = (
 };
 
 export const centisecondsToClockFormat = (centiseconds: number) => {
-  const date = new Date();
-  date.setMilliseconds(centiseconds * 10);
-  return date
+  if (!Number.isFinite(centiseconds)) {
+    throw new Error(
+      `Invalid centiseconds, expected positive number, got ${centiseconds}.`,
+    );
+  }
+  return new Date(centiseconds * 10)
     .toISOString()
     .substr(11, 11)
     .replace(/^[0:]*(?!\.)/g, "");
+};
+
+export const decodeMultiResult = (result: number) => {
+  if (result <= 0) return "DNF";
+  const missed = result % 100;
+  const seconds = Math.floor(result / 100) % 1e5;
+  const points = 99 - (Math.floor(result / 1e7) % 100);
+  const solved = points + missed;
+  const attempted = solved + missed;
+  const centiseconds = seconds * 100;
+  const formattedTime = centisecondsToClockFormat(centiseconds).replace(
+    /\.00$/,
+    "",
+  );
+  return `${solved}/${attempted} ${formattedTime}`;
 };

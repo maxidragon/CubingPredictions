@@ -77,40 +77,47 @@ const AddPrediction = (props: { competition: PublicWCIF; event: Event }) => {
     Promise.all([fetchData(), fetchFinalStartTime()]);
   }, [props.event, props.competition.id, props.competition.persons]);
 
-  return (
-    <>
-      {isLoading ? (
-        <Box
-          sx={{
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            textAlign: "center",
-          }}
-        >
-          <CircularProgress />
-        </Box>
-      ) : isPredicted ? (
+  if (isLoading) {
+    return (
+      <Box
+        sx={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          textAlign: "center",
+        }}
+      >
+        <CircularProgress />
+      </Box>
+    );
+  } else {
+    if (isPredicted) {
+      return (
         <AlreadyPredicted
           competition={props.competition}
           event={props.event}
           yourPrediction={yourPrediction}
         />
-      ) : isRegistrationOpen ? (
+      );
+    }
+    if (isRegistrationOpen) {
+      return (
         <Typography variant="h6">
           You can add your prediction after registration closes.
         </Typography>
-      ) : isAllowed ? (
+      );
+    }
+    if (isAllowed) {
+      return (
         <AddPredictionForm
           competition={props.competition}
           event={props.event}
           competitors={competitors}
         />
-      ) : (
-        <TooLateToAdd />
-      )}
-    </>
-  );
+      );
+    }
+    return <TooLateToAdd />;
+  }
 };
 
 export default AddPrediction;

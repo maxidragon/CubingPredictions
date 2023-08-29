@@ -18,7 +18,6 @@ const UserPodiumPredictions = (props: { userId: number }) => {
     const fetchData = async () => {
       setIsLoading(true);
       const data = await getAllUserPredictions(props.userId);
-      console.log(data);
       setPredictions(data);
     };
     fetchData();

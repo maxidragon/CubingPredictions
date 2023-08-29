@@ -20,7 +20,6 @@ const Profile = () => {
       setIsLoading(true);
       if (userId) {
         const profile = await getUserProfile(+userId);
-        console.log(profile);
         setProfile(profile);
         setIsLoading(false);
       } else {

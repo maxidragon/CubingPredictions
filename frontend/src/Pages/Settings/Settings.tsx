@@ -11,7 +11,6 @@ const Settings = () => {
   useEffect(() => {
     const fetchData = async () => {
       const data = await getSettings();
-      console.log(data);
       setSettings(data);
     };
     fetchData();

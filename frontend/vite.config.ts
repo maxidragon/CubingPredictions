@@ -12,13 +12,13 @@ import eslint from "vite-plugin-eslint";
 export default defineConfig({
   plugins: [
     react(),
-    // eslint(),
+    eslint(),
     checker({
       overlay: { initialIsOpen: false },
       typescript: true,
-      // eslint: {
-      //   lintCommand: "eslint --ext .js,.jsx,.ts,.tsx src",
-      // },
+      eslint: {
+        lintCommand: "eslint --ext .js,.jsx,.ts,.tsx src",
+      },
     }),
     viteTsconfigPaths(),
     svgrPlugin(),

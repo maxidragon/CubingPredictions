@@ -1,4 +1,3 @@
-import { resultToString } from "./results";
 import { wcaApiRequest } from "./request";
 import {
   Person,
@@ -9,6 +8,7 @@ import {
   Venue,
   Room,
   Activity,
+  formatCentiseconds,
 } from "@wca/helpers";
 import {
   Competition,
@@ -16,6 +16,7 @@ import {
   Competitor,
   PublicWCIF,
 } from "./interfaces";
+import { decodeMultiResult } from "./results";
 
 export const getUpcomingCompetitions = async () => {
   const today = new Date();
@@ -186,13 +187,18 @@ export const generateRanking = (
       }
       person.personalBests?.forEach((pb: PersonalBest) => {
         if (pb.eventId === event && pb.type === type) {
-          const resultString = pb.best.toString();
+          let result = "";
+          if (event === "333mbf") {
+            result = decodeMultiResult(pb.best);
+          } else {
+            result = formatCentiseconds(pb.best);
+          }
           ranking.push({
             id: person.wcaUserId,
             name: person.name,
             wcaId: person.wcaId || "",
             country: person.countryIso2,
-            result: resultToString(resultString, event, type),
+            result: result,
             worldRank: pb.worldRanking,
             notResult: false,
           });
@@ -312,7 +318,6 @@ export const searchCompetitions = async (name: string) => {
       `competitions?q=${name}&start=${start}&per_page=50&sort=start_date`,
     );
     const data = await response.json();
-    console.log(data);
     const competitions = data.filter(
       (competition: CompetitionInfo) =>
         new Date(competition.start_date).getFullYear() >= 2023,

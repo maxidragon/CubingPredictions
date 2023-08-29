@@ -1,17 +1,18 @@
+import { useEffect } from "react";
 import { Event } from "../../logic/interfaces";
 import { IconButton, Tooltip } from "@mui/material";
-import "@cubing/icons";
 
 const EventSelect = (props: {
   events: Event[];
   selectedEvent: Event | null;
   eventChange: (id: string) => void;
 }) => {
-  if (props.events.length === 0) return <></>;
+  useEffect(() => {
+    if (!props.selectedEvent && props.events.length > 0) {
+      props.eventChange(props.events[0].id);
+    }
+  }, [props.selectedEvent, props.events, props.eventChange]);
 
-  if (!props.selectedEvent) {
-    props.eventChange(props.events[0].id);
-  }
   return (
     <div>
       {props.events &&
