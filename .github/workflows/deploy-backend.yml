@@ -27,5 +27,8 @@ jobs:
     - name: Create .env
       run: echo "${{secrets.ENV_PRODUCTION}}" > .env
       working-directory: 'backend'
+    - name: Run migrations
+      run: npm run migrate
+      working-directory: 'backend'
     - name: Restart app
       run: pm2 restart CubingPredictionsBackend

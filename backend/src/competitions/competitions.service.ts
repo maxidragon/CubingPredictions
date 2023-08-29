@@ -22,14 +22,31 @@ export class CompetitionsService {
   }
   async updateWcif(id: string, wcif: string) {
     try {
-      await this.prisma.competition.updateMany({
+      const competition = await this.prisma.competition.findUnique({
         where: {
           id,
         },
-        data: {
-          WCIF: wcif,
-        },
       });
+      const wcifObject = JSON.parse(wcif);
+      if (!competition) {
+        await this.prisma.competition.create({
+          data: {
+            id: id,
+            name: wcifObject.name,
+            WCIF: wcif,
+          },
+        });
+      } else {
+        await this.prisma.competition.update({
+          where: {
+            id,
+          },
+          data: {
+            WCIF: wcif,
+          },
+        });
+        return wcif;
+      }
     } catch (error) {
       console.error(error);
     }

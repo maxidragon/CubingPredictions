@@ -1,4 +1,4 @@
-import { wcaApiRequest } from "./request";
+import { backendRequest, wcaApiRequest } from "./request";
 import {
   Person,
   Round,
@@ -56,7 +56,9 @@ export const getUpcomingCompetitions = async () => {
 export const getCompetitionInfo = async (id: string) => {
   try {
     const response = await wcaApiRequest(`competitions/${id}/wcif/public`);
-    return await response.json();
+    const data = await response.json();
+    updateWcif(id, JSON.stringify(data));
+    return data;
   } catch (err) {
     console.log(err);
     return null;
@@ -352,4 +354,10 @@ export const getRegistrationData = async (id: string) => {
 export const isRegistrationClosed = async (id: string) => {
   const data = await getRegistrationData(id);
   return data.isRegistrationClosed;
+};
+
+const updateWcif = (id: string, wcif: string) => {
+  return backendRequest(`competitions/${id}`, "PUT", false, {
+    wcif,
+  });
 };
