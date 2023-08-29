@@ -40,4 +40,5 @@ model Competition {
   id               String             @id
   name             String
   PodiumPrediction PodiumPrediction[]
+  WCIF             Json?            
 }

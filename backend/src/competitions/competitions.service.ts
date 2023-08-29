@@ -1,28 +1,51 @@
 import { Injectable } from '@nestjs/common';
 import axios from '../axios';
+import { DbService } from 'src/db/db.service';
 
 @Injectable()
 export class CompetitionsService {
-  async getBasicInfo(id: string) {
+  constructor(private readonly prisma: DbService) {}
+  async getWcif(id: string) {
     try {
-      const response = await axios.get('competitions/' + id);
-      return response.data;
+      const wcif = await this.prisma.competition.findUnique({
+        where: {
+          id,
+        },
+        select: {
+          WCIF: true,
+        },
+      });
+      return JSON.parse(wcif.WCIF.toString());
+    } catch (error) {
+      console.error(error);
+    }
+  }
+  async updateWcif(id: string, wcif: string) {
+    try {
+      await this.prisma.competition.updateMany({
+        where: {
+          id,
+        },
+        data: {
+          WCIF: wcif,
+        },
+      });
     } catch (error) {
       console.error(error);
     }
   }
 
-  async getCompetitionInfo(id: string) {
-    try {
-      const response = await axios.get('competitions/' + id + '/wcif/public');
-      return response.data;
-    } catch (error) {
-      console.error(error);
-    }
+  async getEventsArrayFromWcif(id: string) {
+    const wcif = await this.getWcif(id);
+    const events = [];
+    wcif.WCIF.events.map((event) => {
+      events.push(event.id);
+    });
+    return events;
   }
 
   async getFinalStartTime(compId: string, eventId: string) {
-    const competitionInfo = await this.getCompetitionInfo(compId);
+    const competitionInfo = await this.getWcif(compId);
     const eventInfo = competitionInfo.events.find(
       (event) => event.id === eventId,
     );
@@ -49,7 +72,7 @@ export class CompetitionsService {
     return finalStartTime;
   }
   async getFinalEndTime(compId: string, eventId: string) {
-    const competitionInfo = await this.getCompetitionInfo(compId);
+    const competitionInfo = await this.getWcif(compId);
     const eventInfo = competitionInfo.events.find(
       (event) => event.id === eventId,
     );
@@ -114,7 +137,7 @@ export class CompetitionsService {
   }
 
   async getCompetitorsForEvent(compId: string, eventId: string) {
-    const competitionInfo = await this.getCompetitionInfo(compId);
+    const competitionInfo = await this.getWcif(compId);
     const eventCompetitors = [];
     competitionInfo.persons.map((person) => {
       if (person.registration.eventIds.includes(eventId)) {
@@ -165,7 +188,7 @@ export class CompetitionsService {
   }
 
   async getRegistrationInfo(id: string) {
-    const compData = await this.getBasicInfo(id);
+    const compData = await this.getWcif(id);
     return {
       registrationOpenDate: compData.registration_open,
       registrationCloseDate: compData.registration_close,

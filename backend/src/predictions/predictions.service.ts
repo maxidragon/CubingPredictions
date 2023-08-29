@@ -208,13 +208,12 @@ export class PredictionsService {
     });
   }
   async checkPodiumPredictionsForCompetition(competitionId: string) {
-    const competitionInfo = await this.competitionsService.getCompetitionInfo(
+    const competitionInfo = await this.competitionsService.getWcif(
       competitionId,
     );
-    const basicInfo = await this.competitionsService.getBasicInfo(
+    const events = await this.competitionsService.getEventsArrayFromWcif(
       competitionId,
     );
-    const events = basicInfo.event_ids;
     events.map((eventId: string) => {
       const eventInfo = competitionInfo.events.find(
         (event) => event.id === eventId,
