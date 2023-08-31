@@ -6,14 +6,11 @@ import { PredictionsModule } from './predictions/predictions.module';
 import { CompetitionsModule } from './competitions/competitions.module';
 import { RankingModule } from './ranking/ranking.module';
 import { UserModule } from './user/user.module';
-import { ServeStaticModule } from '@nestjs/serve-static';
-import { join } from 'path';
+import { ScheduleModule } from '@nestjs/schedule';
 
 @Module({
   imports: [
-    ServeStaticModule.forRoot({
-      rootPath: join(__dirname, '../../frontend/', 'build'),
-    }),
+    ScheduleModule.forRoot(),
     DbModule,
     AuthModule,
     MailerModule.forRootAsync({
