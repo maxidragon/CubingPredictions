@@ -38,7 +38,7 @@
     "dotenv": "^16.0.3",
     "js-sha512": "^0.8.0",
     "passport-jwt": "^4.0.1",
-    "prisma": "^4.14.1",
+    "prisma": "^5.2.0",
     "reflect-metadata": "^0.1.13",
     "rxjs": "^7.2.0"
   },
