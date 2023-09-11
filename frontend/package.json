@@ -7,7 +7,7 @@
     "@cubing/icons": "^1.0.6",
     "@emotion/react": "^11.11.0",
     "@emotion/styled": "^11.11.0",
-    "@mui/icons-material": "^5.11.16",
+    "@mui/icons-material": "^5.14.8",
     "@mui/material": "^5.13.2",
     "@mui/styled-engine-sc": "^5.14.7",
     "@testing-library/jest-dom": "^5.16.5",
